@@ -1,12 +1,13 @@
 flags = -Wall -Werror -Wextra -g
 
 AVLTree = AVLTree/AVLtree
-pilaG = Pila/pilaG
-pruebaPila = Pila/pruebaPila
-cola = Cola/cola
-pruebaCola = Cola/pruebaCola
+pruebaAVLTree = AVLTree/pruebaAVL
+pilaG = AVLTree/Pila/pilaG
+pruebaPila = AVLTree/Pila/pruebaPila
+cola = AVLTree/Cola/cola
+pruebaCola = AVLTree/Cola/pruebaCola
 
-pruebas: pruebaCola pruebaPila
+pruebas: pruebaCola pruebaPila pruebaAVL
 
 pruebaCola: $(cola).o $(pruebaCola).o
 	gcc -o testCola.out $(cola).o $(pruebaCola).o
@@ -28,9 +29,15 @@ pruebaPila.o: $(pruebaPila).c
 	gcc $(flags) -c $(pruebaPila).c
 
 
-avltree.o: $(AVLTree).c $(AVLTree).h
+pruebaAVL: $(pilaG).o $(cola).o $(AVLTree).o $(pruebaAVLTree).o
+	gcc -o testAVL.out $(AVLTree).o $(pruebaAVLTree).o $(pilaG).o $(cola).o
+
+avltree.o: $(pilaG).h $(cola).h $(AVLTree).c $(AVLTree).h
 	gcc $(flags) -c $(AVLTree).c
+
+pruebaAVLTree.o: $(pruebaAVLTree).c
+	gcc $(flags) -c $(pruebaAVLTree).c
 
 
 clean:
-	rm -rf *.out *.o */*.o
+	rm -rf *.out *.o */*.o */*/*.o
