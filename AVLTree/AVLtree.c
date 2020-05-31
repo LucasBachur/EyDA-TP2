@@ -32,12 +32,15 @@ AVLTree avltree_balancear (AVLTree arbol, char *caso){
   AVLTree nuevoArbol = NULL;
   // Desbalance hacia afuera, rotacion simple.
 
-
   if (!strcmp (caso, "ii")){
     nuevoArbol = avltree_rotacion_izq(arbol);
 
   } else if (!strcmp (caso, "dd")){
     nuevoArbol = avltree_rotacion_der(arbol);
+  } else if (!strcmp (caso, "di")){
+    nuevoArbol = avltree_rotacion_izq(avltree_rotacion_der(arbol));
+  } else{
+    nuevoArbol = avltree_rotacion_der(avltree_rotacion_izq(arbol));
   }
   return nuevoArbol;
 }
