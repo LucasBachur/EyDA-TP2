@@ -14,7 +14,8 @@ AVLTree avltree_crear (){
 }
 
 int avltree_balanceado(AVLTree arbol){
-  return avltree_altura(arbol->left) - avltree_altura(arbol->right);
+  int factorBalance = avltree_altura(arbol->left) - avltree_altura(arbol->right);
+  return factorBalance == -1 || factorBalance == 1 || factorBalance == 0;
 }
 
 int avltree_altura(AVLTree arbol){
@@ -74,13 +75,12 @@ char avltree_insertar (AVLTree *arbol, int dato){
     balanceRequerido[2] = '\0';
 
     // ver de hacer una funcino para este if feo(patito).
-    if (avltree_balanceado ((*arbol)) != 1 && avltree_balanceado ((*arbol)) != -1 && avltree_balanceado ((*arbol)) != 0){
+    if (!avltree_balanceado (*arbol)){
       *arbol = avltree_balancear (*arbol, balanceRequerido);
     }
   }
   return mov;
 }
-
 
 // void avltree_destruir (AVLTree raiz, FuncionLibertadora liberadora) {
 //   if (raiz != NULL){
