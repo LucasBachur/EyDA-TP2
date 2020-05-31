@@ -29,21 +29,30 @@ int avltree_altura(AVLTree arbol){
 }
 
 AVLTree avltree_balancear (AVLTree arbol, char *caso){
-  AVLTree nodoRelevante = NULL;
+  AVLTree nuevoArbol = NULL;
   // Desbalance hacia afuera, rotacion simple.
 
 
   if (!strcmp (caso, "ii")){
-    nodoRelevante = arbol->left;
-    arbol->left = nodoRelevante->right;
-    nodoRelevante->right = arbol;
+    nuevoArbol = avltree_rotacion_izq(arbol);
 
-  }else if (!strcmp (caso, "dd")){
-
-    nodoRelevante = arbol->right;
-    arbol->right = nodoRelevante->left;
-    nodoRelevante->left = arbol;  
+  } else if (!strcmp (caso, "dd")){
+    nuevoArbol = avltree_rotacion_der(arbol);
   }
+  return nuevoArbol;
+}
+
+AVLTree avltree_rotacion_izq (AVLTree arbol){
+  AVLTree nodoRelevante = arbol->left;
+  arbol->left = nodoRelevante->right;
+  nodoRelevante->right = arbol;
+  return nodoRelevante;
+}
+
+AVLTree avltree_rotacion_der (AVLTree arbol){
+  AVLTree nodoRelevante = arbol->right;
+  arbol->right = nodoRelevante->left;
+  nodoRelevante->left = arbol;
   return nodoRelevante;
 }
 
@@ -74,7 +83,7 @@ char avltree_insertar (AVLTree *arbol, int dato){
     balanceRequerido[1] = sigMov;
     balanceRequerido[2] = '\0';
 
-    // ver de hacer una funcino para este if feo(patito).
+    // (patito).
     if (!avltree_balanceado (*arbol)){
       *arbol = avltree_balancear (*arbol, balanceRequerido);
     }

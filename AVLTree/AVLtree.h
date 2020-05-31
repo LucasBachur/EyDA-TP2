@@ -27,6 +27,10 @@ int avltree_altura(AVLTree arbol);
 
 AVLTree avltree_balancear (AVLTree arbol, char*);
 
+AVLTree avltree_rotacion_izq (AVLTree arbol);
+
+AVLTree avltree_rotacion_der (AVLTree arbol);
+
 /**
  * Destruye un arbol liberando su memoria.
  */
