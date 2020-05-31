@@ -17,7 +17,6 @@ int main (){
 
   int datosPrueba[10] = {0,1,2,3,4,5,6,7,8,9};
 
-  void *auxiliar;
   for (int i = 0; i < 10; ++i){
     // Encolando un entero.
     cola_encolar (&colaEjemplo, datosPrueba + i);

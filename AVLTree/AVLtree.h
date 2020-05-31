@@ -14,6 +14,8 @@ typedef AVLTNodo *AVLTree;
 
 #define max(x, y) (((x) > (y)) ? (x) : (y))
 
+
+void imprimir_int (int dato);
 /**
  * Devuelve un arbol vacío.
  */
@@ -23,7 +25,7 @@ int avltree_balanceado(AVLTree arbol);
 
 int avltree_altura(AVLTree arbol);
 
-void avltree_balancear (AVLTree *arbol, char*);
+AVLTree avltree_balancear (AVLTree arbol, char*);
 
 /**
  * Destruye un arbol liberando su memoria.

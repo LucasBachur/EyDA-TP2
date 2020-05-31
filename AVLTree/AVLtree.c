@@ -5,6 +5,9 @@
 #include "Cola/cola.h"
 #include "Pila/pilaG.h"
 
+void imprimir_int (int dato){
+  printf ("%d ", dato);
+}
 
 AVLTree avltree_crear (){
   return NULL;
@@ -24,25 +27,23 @@ int avltree_altura(AVLTree arbol){
   return altura;
 }
 
-void avltree_balancear (AVLTree *arbol, char *caso){
+AVLTree avltree_balancear (AVLTree arbol, char *caso){
   AVLTree nodoRelevante = NULL;
   // Desbalance hacia afuera, rotacion simple.
 
 
   if (!strcmp (caso, "ii")){
-    printf ("Caso de |%s|\n\n", caso);
-    nodoRelevante = (*arbol)->left;
-    (*arbol)->left = nodoRelevante->right;
-    nodoRelevante->left = (*arbol)->left;
-    (*arbol) = nodoRelevante;
+    nodoRelevante = arbol->left;
+    arbol->left = nodoRelevante->right;
+    nodoRelevante->right = arbol;
 
   }else if (!strcmp (caso, "dd")){
 
-    nodoRelevante = (*arbol)->right;
-    (*arbol)->right = nodoRelevante->left;
-    nodoRelevante->right = (*arbol)->right;
-    (*arbol) = nodoRelevante;
+    nodoRelevante = arbol->right;
+    arbol->right = nodoRelevante->left;
+    nodoRelevante->left = arbol;  
   }
+  return nodoRelevante;
 }
 
 char avltree_insertar (AVLTree *arbol, int dato){
@@ -57,35 +58,24 @@ char avltree_insertar (AVLTree *arbol, int dato){
     nuevoSubarbol->right = avltree_crear ();
     *arbol = nuevoSubarbol;
   }
-  // modularizar eestos if.
-  else if (dato < (*arbol)->dato){ // Notese "<" tendra que ser cambiado por una f.
+  // modularizar estos if.
+  else { // Notese "<" tendra que ser cambiado por una f.
     char sigMov = ' '; // si fue a la izquierda: i. derecha: d.
     char balanceRequerido[3];
-    mov = 'i';
-    sigMov = avltree_insertar ((&(*arbol)->left), dato);
-    balanceRequerido[0] = mov;
-    balanceRequerido[1] = sigMov;
-    balanceRequerido[2] = '\0';
-
-    // ver de hacer una funcino para este if feo.
-    if (avltree_balanceado ((*arbol)) != 1 && avltree_balanceado ((*arbol)) != -1 && avltree_balanceado ((*arbol)) != 0){
-      printf ("arbol no balanceado!\n");
-      printf ("Caso de |%s|\n\n", balanceRequerido);
-      avltree_balancear (arbol, balanceRequerido);
+    if (dato < (*arbol)->dato){
+      mov = 'i';
+      sigMov = avltree_insertar ((&(*arbol)->left), dato);
+    } else{
+      mov = 'd';
+      sigMov = avltree_insertar ((&(*arbol)->right), dato);
     }
-  }
-  else {
-    char sigMov = ' '; // si fue a la izquierda: i. derecha: d.
-    char balanceRequerido[3];
-    mov = 'd';
-    sigMov = avltree_insertar ((&(*arbol)->right), dato);
     balanceRequerido[0] = mov;
     balanceRequerido[1] = sigMov;
     balanceRequerido[2] = '\0';
 
-    // ver de hacer una funcino para este if feo.
+    // ver de hacer una funcino para este if feo(patito).
     if (avltree_balanceado ((*arbol)) != 1 && avltree_balanceado ((*arbol)) != -1 && avltree_balanceado ((*arbol)) != 0){
-      avltree_balancear (arbol, balanceRequerido);
+      *arbol = avltree_balancear (*arbol, balanceRequerido);
     }
   }
   return mov;

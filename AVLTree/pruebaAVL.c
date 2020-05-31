@@ -2,9 +2,6 @@
 #include <stdlib.h>
 #include "AVLtree.h"
 
-void imprimir_int (int dato){
-  printf ("%d ", dato);
-}
 
 int main() {
   printf ("buen dia\n");
@@ -12,8 +9,8 @@ int main() {
   AVLTree arbolEjemplo = avltree_crear ();
 
   // Cargando los datos.
-  int datosPrueba[10] = {13, 10, 15, 5, 11 ,16, 4 ,6, 3};
-  for (int i = 0; i < 9; ++i){
+  int datosPrueba[20] = {13, 10, 15, 5, 11 ,16, 4 ,6, 3, 14, 17, 18};
+  for (int i = 0; i < 12; ++i){
     printf ("Insertando dato\n");
     avltree_insertar (&arbolEjemplo, datosPrueba[i]);
   }

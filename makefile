@@ -9,8 +9,8 @@ pruebaCola = AVLTree/Cola/pruebaCola
 
 pruebas: pruebaCola pruebaPila pruebaAVL
 
-pruebaCola: $(cola).o $(pruebaCola).o
-	gcc -o testCola.out $(cola).o $(pruebaCola).o
+pruebaCola: $(pruebaCola).o $(cola).o
+	gcc -o testCola.out $(pruebaCola).o $(cola).o
 
 cola.o: $(cola).c $(cola).h
 	gcc $(flags) -c $(cola).c
@@ -39,5 +39,8 @@ pruebaAVLTree.o: $(pruebaAVLTree).c
 	gcc $(flags) -c $(pruebaAVLTree).c
 
 
-clean:
+cleanLin:
 	rm -rf *.out *.o */*.o */*/*.o
+
+cleanWin:
+	del /Q /F AVLTree\Cola\*.o AVLTree\Pila\*.o AVLTree\*.o
