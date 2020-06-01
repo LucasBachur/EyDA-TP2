@@ -31,7 +31,7 @@ AVLTree avltree_rotacion_izq (AVLTree arbol);
 
 AVLTree avltree_rotacion_der (AVLTree arbol);
 
-AVLTree avltree_eliminar_dato (AVLTree arbol, int dato);
+char avltree_eliminar_dato (AVLTree *arbol, int dato);
 
 int avltree_eliminar_minimo (AVLTree *arbol);
 
@@ -43,14 +43,10 @@ void avltree_destruir (AVLTree arbol, FuncionLibertadora);
 void avltree_destruir_int (AVLTree raiz);
 
 /**
- *  Dado un arbol y un objeto, si esta en el arbol, lo elimina.
+ *  Dado un arbol y un objeto, lo inserta.
  */
 char avltree_insertar (AVLTree *arbol, int dato);
 
-/**
- *  Dado un arbol y un objeto, si esta en el arbol, lo elimina.
- */
-void avltree_eliminar (AVLTree *arbol, int dato);
 
 /**
  * Recorre en profundidad y aplica la funcion visitante.

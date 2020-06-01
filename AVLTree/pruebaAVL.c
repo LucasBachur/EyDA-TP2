@@ -39,7 +39,7 @@ int main() {
 
   printf("\n");
 
-  arbolEjemplo = avltree_eliminar_dato (arbolEjemplo, 10);
+  avltree_eliminar_dato (&arbolEjemplo, 16);
 
   avltree_recorrer_dfs (arbolEjemplo, imprimir_int);
 
@@ -48,5 +48,6 @@ int main() {
 
   // Destruyendo
   avltree_destruir_int (arbolEjemplo);
+
   return 0;
 }

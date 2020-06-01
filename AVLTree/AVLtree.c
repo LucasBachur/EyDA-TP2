@@ -73,7 +73,6 @@ char avltree_insertar (AVLTree *arbol, int dato){
     nuevoSubarbol->right = avltree_crear ();
     *arbol = nuevoSubarbol;
   }
-  // modularizar estos if.
   else { // Notese "<" tendra que ser cambiado por una f.
     char sigMov = ' '; // si fue a la izquierda: i. derecha: d.
     char balanceRequerido[3];
@@ -96,38 +95,63 @@ char avltree_insertar (AVLTree *arbol, int dato){
   return mov;
 }
 
-AVLTree avltree_eliminar_dato (AVLTree arbol, int datoQueEliminar){
-  AVLTree nodoResultado = NULL;
-  if (arbol->dato == datoQueEliminar){
-    if (arbol->left == NULL && arbol->right == NULL) free(arbol);
-    else if (arbol->left == NULL){
-      nodoResultado = arbol->right;
-      free(arbol);
+char avltree_eliminar_dato (AVLTree *arbol, int datoQueEliminar){
+
+  char mov = ' ';
+
+  AVLTree nodoLiberar = NULL;
+
+  if ((*arbol)->dato == datoQueEliminar){
+    if ((*arbol)->left == NULL && (*arbol)->right == NULL){
+      free((*arbol));
+      *arbol = NULL;
     }
-    else if (arbol->right == NULL){
-      nodoResultado = arbol->left;
-      free(arbol);
+    else if ((*arbol)->left == NULL){
+      nodoLiberar = *arbol;
+      *arbol = (*arbol)->right;
+      free(nodoLiberar);
+      nodoLiberar = NULL;
+    }
+    else if ((*arbol)->right == NULL){
+      nodoLiberar = *arbol;
+      *arbol = (*arbol)->left;
+      free(nodoLiberar);
+      nodoLiberar = NULL;
     }
     else{
-      arbol->dato = avltree_eliminar_minimo(&(arbol->right));
-      nodoResultado = arbol;
+      (*arbol)->dato = avltree_eliminar_minimo(&((*arbol)->right));
     }
   }
   else{
+    char balanceRequerido[3], sigMov = ' ';
     // printf("eliminando %d\n",arbol->dato);
-    if (arbol->dato > datoQueEliminar) arbol->left = avltree_eliminar_dato(arbol->left, datoQueEliminar);
-    else arbol->right = avltree_eliminar_dato(arbol->right, datoQueEliminar);
-    nodoResultado = arbol;
+    if ((*arbol)->dato > datoQueEliminar) {
+      mov = 'd';
+      sigMov = avltree_eliminar_dato (&((*arbol)->left), datoQueEliminar);
+    }
+
+    else {
+      mov = 'i';
+      sigMov = avltree_eliminar_dato (&((*arbol)->right), datoQueEliminar);
+    }
+    balanceRequerido[0] = mov;
+    balanceRequerido[1] = sigMov;
+    balanceRequerido[2] = '\0';
+    printf("%s\n",balanceRequerido);
+    // (patito).
+    if (!avltree_balanceado (*arbol)){
+      *arbol = avltree_balancear (*arbol, balanceRequerido);
+    }
   }
   
-  return nodoResultado;
+  return mov;
 }
 
 int avltree_eliminar_minimo (AVLTree *arbol){
   int minimo = -1;
   if ((*arbol)->left == NULL){
     minimo = (*arbol)->dato;
-    *arbol = avltree_eliminar_dato((*arbol), (*arbol)->dato);
+    avltree_eliminar_dato(arbol, (*arbol)->dato);
   }
   else{
     minimo = avltree_eliminar_minimo(&((*arbol)->left));
