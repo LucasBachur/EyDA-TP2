@@ -9,7 +9,7 @@ int main() {
   AVLTree arbolEjemplo = avltree_crear ();
 
   // Cargando los datos.
-  int datosPrueba[20] = {13, 10, 15, 5, 11 ,16, 4 ,6, 7};
+  int datosPrueba[20] = { 13, 10, 15, 5, 11 , 16, 4, 6, 7};
   for (int i = 0; i < 9; ++i){
     printf ("Insertando dato\n");
     avltree_insertar (&arbolEjemplo, datosPrueba[i]);

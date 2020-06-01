@@ -33,26 +33,28 @@ AVLTree avltree_balancear (AVLTree arbol, char *caso){
   // Desbalance hacia afuera, rotacion simple.
 
   if (!strcmp (caso, "ii")){
-    nuevoArbol = avltree_rotacion_izq(arbol);
+    nuevoArbol = avltree_rotacion_der(arbol);
 
   } else if (!strcmp (caso, "dd")){
-    nuevoArbol = avltree_rotacion_der(arbol);
+    nuevoArbol = avltree_rotacion_izq(arbol);
   } else if (!strcmp (caso, "di")){
-    nuevoArbol = avltree_rotacion_izq(avltree_rotacion_der(arbol));
+    arbol->right = avltree_rotacion_der(arbol->right);
+    nuevoArbol = avltree_rotacion_izq(arbol);
   } else{
-    nuevoArbol = avltree_rotacion_der(avltree_rotacion_izq(arbol));
+    arbol->left = avltree_rotacion_izq(arbol->left);
+    nuevoArbol = avltree_rotacion_der(arbol);
   }
   return nuevoArbol;
 }
 
-AVLTree avltree_rotacion_izq (AVLTree arbol){
+AVLTree avltree_rotacion_der (AVLTree arbol){
   AVLTree nodoRelevante = arbol->left;
   arbol->left = nodoRelevante->right;
   nodoRelevante->right = arbol;
   return nodoRelevante;
 }
 
-AVLTree avltree_rotacion_der (AVLTree arbol){
+AVLTree avltree_rotacion_izq (AVLTree arbol){
   AVLTree nodoRelevante = arbol->right;
   arbol->right = nodoRelevante->left;
   nodoRelevante->left = arbol;
