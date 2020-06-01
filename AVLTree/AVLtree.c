@@ -62,7 +62,7 @@ AVLTree avltree_rotacion_izq (AVLTree arbol){
 }
 
 char avltree_insertar (AVLTree *arbol, int dato){
-  printf ("avltree_insertar\n");
+  //printf ("avltree_insertar\n");
   char mov = ' '; // si fue a la izquierda: i. derecha: d
 
   if (*arbol == NULL){
@@ -94,6 +94,45 @@ char avltree_insertar (AVLTree *arbol, int dato){
     }
   }
   return mov;
+}
+
+AVLTree avltree_eliminar_dato (AVLTree arbol, int datoQueEliminar){
+  AVLTree nodoResultado = NULL;
+  if (arbol->dato == datoQueEliminar){
+    if (arbol->left == NULL && arbol->right == NULL) free(arbol);
+    else if (arbol->left == NULL){
+      nodoResultado = arbol->right;
+      free(arbol);
+    }
+    else if (arbol->right == NULL){
+      nodoResultado = arbol->left;
+      free(arbol);
+    }
+    else{
+      arbol->dato = avltree_eliminar_minimo(&(arbol->right));
+      nodoResultado = arbol;
+    }
+  }
+  else{
+    // printf("eliminando %d\n",arbol->dato);
+    if (arbol->dato > datoQueEliminar) arbol->left = avltree_eliminar_dato(arbol->left, datoQueEliminar);
+    else arbol->right = avltree_eliminar_dato(arbol->right, datoQueEliminar);
+    nodoResultado = arbol;
+  }
+  
+  return nodoResultado;
+}
+
+int avltree_eliminar_minimo (AVLTree *arbol){
+  int minimo = -1;
+  if ((*arbol)->left == NULL){
+    minimo = (*arbol)->dato;
+    *arbol = avltree_eliminar_dato((*arbol), (*arbol)->dato);
+  }
+  else{
+    minimo = avltree_eliminar_minimo(&((*arbol)->left));
+  }
+  return minimo;
 }
 
 // void avltree_destruir (AVLTree raiz, FuncionLibertadora liberadora) {

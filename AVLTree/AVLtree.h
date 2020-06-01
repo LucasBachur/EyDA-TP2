@@ -31,6 +31,10 @@ AVLTree avltree_rotacion_izq (AVLTree arbol);
 
 AVLTree avltree_rotacion_der (AVLTree arbol);
 
+AVLTree avltree_eliminar_dato (AVLTree arbol, int dato);
+
+int avltree_eliminar_minimo (AVLTree *arbol);
+
 /**
  * Destruye un arbol liberando su memoria.
  */
