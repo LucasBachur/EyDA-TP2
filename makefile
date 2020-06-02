@@ -1,42 +1,42 @@
-flags = -Wall -Werror -Wextra -g
+flags = -Wall -Werror -Wextra -g -c
 
 ITree = ITree/ITree
-pruebaITree = ITree/pruebaAVL
+pruebaITree = ITree/pruebaITree
 pilaG = ITree/Pila/pilaG
 pruebaPila = ITree/Pila/pruebaPila
 cola = ITree/Cola/cola
 pruebaCola = ITree/Cola/pruebaCola
 
-pruebas: pruebaCola pruebaPila pruebaAVL
+pruebas: pruebaCola pruebaPila pruebaITree
 
 pruebaCola: $(pruebaCola).o $(cola).o
 	gcc -o testCola.out $(pruebaCola).o $(cola).o
 
 cola.o: $(cola).c $(cola).h
-	gcc $(flags) -c $(cola).c
+	gcc $(flags) $(cola).c
 
 pruebaCola.o: $(pruebaCola).c
-	gcc $(flags) -c $(pruebaCola).c
+	gcc $(flags) $(pruebaCola).c
 
 
 pruebaPila: $(pilaG).o $(pruebaPila).o
 	gcc -o testPila.out $(pilaG).o $(pruebaPila).o
 
 pilaG.o: $(pilaG).c $(pilaG).h
-	gcc $(flags) -c $(pilaG).c
+	gcc $(flags) $(pilaG).c
 
 pruebaPila.o: $(pruebaPila).c
-	gcc $(flags) -c $(pruebaPila).c
+	gcc $(flags) $(pruebaPila).c
 
 
-pruebaAVL: $(pilaG).o $(cola).o $(ITree).o $(pruebaITree).o
-	gcc -o testAVL.out $(ITree).o $(pruebaITree).o $(pilaG).o $(cola).o
+pruebaITree: $(pilaG).o $(cola).o $(ITree).o $(pruebaITree).o
+	gcc -o testITree.out $(ITree).o $(pruebaITree).o $(pilaG).o $(cola).o
 
 avltree.o: $(pilaG).h $(cola).h $(ITree).c $(ITree).h
-	gcc $(flags) -c $(ITree).c
+	gcc $(flags) $(ITree).c
 
 pruebaITree.o: $(pruebaITree).c
-	gcc $(flags) -c $(pruebaITree).c
+	gcc $(flags) $(pruebaITree).c
 
 
 cleanLin:
