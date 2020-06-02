@@ -20,10 +20,10 @@ void* cola_primero (Cola cola){
 void cola_encolar (Cola *cola, void *dato){
   GNodo *nuevoNodo = malloc (sizeof (GNodo));
   nuevoNodo->dato = dato;
-  nuevoNodo->next = NULL;
+  nuevoNodo->sig = NULL;
 
   if (!cola_es_vacia(*cola)){
-    cola->final->next = nuevoNodo;
+    cola->final->sig = nuevoNodo;
   }
   else {
     cola->principio = nuevoNodo;
@@ -35,7 +35,7 @@ void cola_encolar (Cola *cola, void *dato){
 void cola_desencolar (Cola *cola){
   if (!cola_es_vacia (*cola)){
     GNodo *libertador = cola->principio;
-    cola->principio = libertador->next;
+    cola->principio = libertador->sig;
     free (libertador);
 
     if (cola->principio == NULL){
@@ -47,7 +47,7 @@ void cola_desencolar (Cola *cola){
 void cola_recorrer (Cola cola, FuncionVisitante visit){
   GNodo *iterador = cola.principio;
 
-  for (; iterador != NULL; iterador = iterador->next){
+  for (; iterador != NULL; iterador = iterador->sig){
     visit (iterador->dato);
   }
 }

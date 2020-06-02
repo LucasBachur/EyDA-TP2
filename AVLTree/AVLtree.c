@@ -13,9 +13,9 @@ AVLTree avltree_crear (){
   return NULL;
 }
 
-int avltree_balanceado(AVLTree arbol){
+int avltree_balance (AVLTree arbol){
   int factorBalance = avltree_altura(arbol->left) - avltree_altura(arbol->right);
-  return factorBalance == -1 || factorBalance == 1 || factorBalance == 0;
+  return factorBalance;
 }
 
 int avltree_altura(AVLTree arbol){
@@ -28,24 +28,7 @@ int avltree_altura(AVLTree arbol){
   return altura;
 }
 
-AVLTree avltree_balancear (AVLTree arbol, char *caso){
-  AVLTree nuevoArbol = NULL;
-  // Desbalance hacia afuera, rotacion simple.
 
-  if (!strcmp (caso, "ii")){
-    nuevoArbol = avltree_rotacion_der(arbol);
-
-  } else if (!strcmp (caso, "dd")){
-    nuevoArbol = avltree_rotacion_izq(arbol);
-  } else if (!strcmp (caso, "di")){
-    arbol->right = avltree_rotacion_der(arbol->right);
-    nuevoArbol = avltree_rotacion_izq(arbol);
-  } else{
-    arbol->left = avltree_rotacion_izq(arbol->left);
-    nuevoArbol = avltree_rotacion_der(arbol);
-  }
-  return nuevoArbol;
-}
 
 AVLTree avltree_rotacion_der (AVLTree arbol){
   AVLTree nodoRelevante = arbol->left;
@@ -61,10 +44,7 @@ AVLTree avltree_rotacion_izq (AVLTree arbol){
   return nodoRelevante;
 }
 
-char avltree_insertar (AVLTree *arbol, int dato){
-  //printf ("avltree_insertar\n");
-  char mov = ' '; // si fue a la izquierda: i. derecha: d
-
+void avltree_insertar (AVLTree *arbol, int dato){
   if (*arbol == NULL){
     printf ("Agregando nuevo dato, dato: |%d|\n", dato);
     AVLTree nuevoSubarbol = malloc (sizeof (AVLTNodo));
@@ -74,31 +54,65 @@ char avltree_insertar (AVLTree *arbol, int dato){
     *arbol = nuevoSubarbol;
   }
   else { // Notese "<" tendra que ser cambiado por una f.
-    char sigMov = ' '; // si fue a la izquierda: i. derecha: d.
-    char balanceRequerido[3];
-    if (dato < (*arbol)->dato){
-      mov = 'i';
-      sigMov = avltree_insertar ((&(*arbol)->left), dato);
-    } else{
-      mov = 'd';
-      sigMov = avltree_insertar ((&(*arbol)->right), dato);
-    }
-    balanceRequerido[0] = mov;
-    balanceRequerido[1] = sigMov;
-    balanceRequerido[2] = '\0';
 
-    // (patito).
-    if (!avltree_balanceado (*arbol)){
-      *arbol = avltree_balancear (*arbol, balanceRequerido);
+    if (dato < (*arbol)->dato){
+      avltree_insertar ((&(*arbol)->left), dato);
+    } else{
+      avltree_insertar ((&(*arbol)->right), dato);
     }
+    int balance = avltree_balance (*arbol);
+
+    *arbol = avltree_balancear (*arbol, balance);
   }
-  return mov;
 }
 
-char avltree_eliminar_dato (AVLTree *arbol, int datoQueEliminar){
+AVLTree avltree_balancear (AVLTree arbol, int factorBalance){
 
-  char mov = ' ';
+  if (factorBalance > 1){
+    if (avltree_balance (arbol->left) >= 0){
+      arbol = avltree_rotacion_der (arbol);
+    }
+    else {
+      arbol->left = avltree_rotacion_izq (arbol->left);
+      arbol = avltree_rotacion_der (arbol);
+    }
+  }
+  else if (factorBalance < -1){
+    printf ("hijo der\n");
+    // En el caso de balance tras insercion, nunca va a ser igual a 0, pues justamente
+    // por algo esta desbalanceado.
+    // Ahora bien, cuando estamos balanceando tras eliminacion, puede ser que
+    // sea 0, y en ese caso daria lo mismo, por lo que optamos por hacer
+    // solo una rotacion simple.
+    if (avltree_balance (arbol->right) >= 0){
+      printf("buendia\n");
+      printf ("hija der del der \n");
 
+      printf ("\nrotando hacia derecha el arbol: \n");
+
+      avltree_recorrer_dfs (arbol->right, imprimir_int);
+      printf ("\n");
+      arbol->right = avltree_rotacion_der (arbol->right);
+
+      printf ("rotando hacia izq el arbol: \n");
+      avltree_recorrer_dfs (arbol, imprimir_int);
+      arbol = avltree_rotacion_izq (arbol);
+      printf ("\n\n");
+
+    }
+    else {
+      printf ("hija izq del der \n");
+      printf ("rotando hacia izq el arbol: \n");
+      avltree_recorrer_dfs (arbol, imprimir_int);
+      arbol = avltree_rotacion_izq (arbol);
+      printf ("\n\n");
+    }
+  }
+
+  return arbol;
+}
+
+void avltree_eliminar_dato (AVLTree *arbol, int datoQueEliminar){
   AVLTree nodoLiberar = NULL;
 
   if ((*arbol)->dato == datoQueEliminar){
@@ -123,28 +137,17 @@ char avltree_eliminar_dato (AVLTree *arbol, int datoQueEliminar){
     }
   }
   else{
-    char balanceRequerido[3], sigMov = ' ';
     // printf("eliminando %d\n",arbol->dato);
     if ((*arbol)->dato > datoQueEliminar) {
-      mov = 'd';
-      sigMov = avltree_eliminar_dato (&((*arbol)->left), datoQueEliminar);
+      avltree_eliminar_dato (&((*arbol)->left), datoQueEliminar);
     }
-
     else {
-      mov = 'i';
-      sigMov = avltree_eliminar_dato (&((*arbol)->right), datoQueEliminar);
+      avltree_eliminar_dato (&((*arbol)->right), datoQueEliminar);
     }
-    balanceRequerido[0] = mov;
-    balanceRequerido[1] = sigMov;
-    balanceRequerido[2] = '\0';
-    printf("%s\n",balanceRequerido);
-    // (patito).
-    if (!avltree_balanceado (*arbol)){
-      *arbol = avltree_balancear (*arbol, balanceRequerido);
-    }
+    int balance = avltree_balance (*arbol);
+
+    *arbol = avltree_balancear (*arbol, balance);
   }
-  
-  return mov;
 }
 
 int avltree_eliminar_minimo (AVLTree *arbol){
@@ -193,7 +196,6 @@ void avltree_recorrer_bfs (AVLTree arbol, FuncionQueVisita visit){
     }
   }
 }
-
 
 void avltree_recorrer_dfs (AVLTree arbol, FuncionQueVisita visit){
   if (arbol != NULL){

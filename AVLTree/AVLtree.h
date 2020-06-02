@@ -25,13 +25,13 @@ int avltree_balanceado(AVLTree arbol);
 
 int avltree_altura(AVLTree arbol);
 
-AVLTree avltree_balancear (AVLTree arbol, char*);
+AVLTree avltree_balancear (AVLTree arbol, int);
 
 AVLTree avltree_rotacion_izq (AVLTree arbol);
 
 AVLTree avltree_rotacion_der (AVLTree arbol);
 
-char avltree_eliminar_dato (AVLTree *arbol, int dato);
+void avltree_eliminar_dato (AVLTree *arbol, int dato);
 
 int avltree_eliminar_minimo (AVLTree *arbol);
 
@@ -45,7 +45,7 @@ void avltree_destruir_int (AVLTree raiz);
 /**
  *  Dado un arbol y un objeto, lo inserta.
  */
-char avltree_insertar (AVLTree *arbol, int dato);
+void avltree_insertar (AVLTree *arbol, int dato);
 
 
 /**

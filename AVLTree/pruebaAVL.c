@@ -28,7 +28,7 @@ int main() {
   // printf("\n");
 
   // // Cargando los datos.
-  int datosPrueba[20] = { 13, 10, 15, 5, 11 , 16, 4, 6, 7};
+  int datosPrueba[20] = {13, 10, 15, 5, 11, 16, 4, 6, 7};
   for (int i = 0; i < 9; ++i){
     printf ("Insertando dato\n");
     avltree_insertar (&arbolEjemplo, datosPrueba[i]);
@@ -36,15 +36,17 @@ int main() {
 
   // Imprimiendo.
   avltree_recorrer_dfs (arbolEjemplo, imprimir_int);
-
   printf("\n");
 
+  printf ("Elimnando el 16\n\n");
   avltree_eliminar_dato (&arbolEjemplo, 16);
-
   avltree_recorrer_dfs (arbolEjemplo, imprimir_int);
-
   printf("\n");
 
+  printf ("Eliminando el 4\n\n");
+  avltree_eliminar_dato (&arbolEjemplo, 4);
+  avltree_recorrer_dfs (arbolEjemplo, imprimir_int);
+  printf("\n");
 
   // Destruyendo
   avltree_destruir_int (arbolEjemplo);

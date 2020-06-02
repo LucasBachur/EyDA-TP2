@@ -1,11 +1,11 @@
 flags = -Wall -Werror -Wextra -g
 
-AVLTree = AVLTree/AVLtree
-pruebaAVLTree = AVLTree/pruebaAVL
-pilaG = AVLTree/Pila/pilaG
-pruebaPila = AVLTree/Pila/pruebaPila
-cola = AVLTree/Cola/cola
-pruebaCola = AVLTree/Cola/pruebaCola
+ITree = ITree/ITree
+pruebaITree = ITree/pruebaAVL
+pilaG = ITree/Pila/pilaG
+pruebaPila = ITree/Pila/pruebaPila
+cola = ITree/Cola/cola
+pruebaCola = ITree/Cola/pruebaCola
 
 pruebas: pruebaCola pruebaPila pruebaAVL
 
@@ -29,18 +29,18 @@ pruebaPila.o: $(pruebaPila).c
 	gcc $(flags) -c $(pruebaPila).c
 
 
-pruebaAVL: $(pilaG).o $(cola).o $(AVLTree).o $(pruebaAVLTree).o
-	gcc -o testAVL.out $(AVLTree).o $(pruebaAVLTree).o $(pilaG).o $(cola).o
+pruebaAVL: $(pilaG).o $(cola).o $(ITree).o $(pruebaITree).o
+	gcc -o testAVL.out $(ITree).o $(pruebaITree).o $(pilaG).o $(cola).o
 
-avltree.o: $(pilaG).h $(cola).h $(AVLTree).c $(AVLTree).h
-	gcc $(flags) -c $(AVLTree).c
+avltree.o: $(pilaG).h $(cola).h $(ITree).c $(ITree).h
+	gcc $(flags) -c $(ITree).c
 
-pruebaAVLTree.o: $(pruebaAVLTree).c
-	gcc $(flags) -c $(pruebaAVLTree).c
+pruebaITree.o: $(pruebaITree).c
+	gcc $(flags) -c $(pruebaITree).c
 
 
 cleanLin:
 	rm -rf *.out *.o */*.o */*/*.o
 
 cleanWin:
-	del /Q /F AVLTree\Cola\*.o AVLTree\Pila\*.o AVLTree\*.o
+	del /Q /F ITree\Cola\*.o ITree\Pila\*.o ITree\*.o
