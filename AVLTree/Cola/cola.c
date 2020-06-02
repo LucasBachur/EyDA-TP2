@@ -13,7 +13,6 @@ int cola_es_vacia (Cola cola){
   return cola.final == NULL;
 }
 
-
 void* cola_primero (Cola cola){
   return cola.principio->dato;
 }

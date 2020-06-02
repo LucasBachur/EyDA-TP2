@@ -7,7 +7,7 @@
 
 typedef struct _GNodo {
   void *dato;
-  struct _GNodo *next;
+  struct _GNodo *sig;
 } GNodo;
 
 typedef struct _Cola {
