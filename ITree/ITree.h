@@ -1,14 +1,9 @@
 #ifndef __ITreeree_H__
 #define __ITree_H__
 
-#define COUNT 10
+#include "Intervalos/intervalos.h"
 
-typedef struct _Intervalo {
-  double extIzq;
-  double extDer;
-} Intervalo;
-
-typedef void (*FuncionQueVisita) (Intervalo intervalo);
+typedef void (*FuncionQueVisita) (Intervalo dato);
 // typedef void (*FuncionLibertadora) (void*);
 // /** No se sabe.
 //  * Destruye un arbol liberando su memoria.
@@ -41,7 +36,7 @@ ITree itree_rotacion_izq (ITree arbol);
 
 ITree itree_rotacion_der (ITree arbol);
 
-ITree itree_balancear (ITree arbol, int);
+ITree itree_balancear (ITree arbol, int factorBalance);
 
 /**
  *  Dado un arbol y un objeto, lo inserta.
@@ -66,20 +61,11 @@ void itree_recorrer_bfs (ITree arbol, FuncionQueVisita visit);
 
 void itree_mayor_extDer (ITree *arbol);
 
-void imprimir_intervalo (Intervalo);
-
 void itree_destruir (ITree raiz);
 
-/**
- *  Dados dos intervalos, los compara y determina su relacion.
-    devuelve: 1 si el primero es estrictamente mayor al segundo.
-              -1 si es menor.
-              0 si es igual.
-    Explicar contexto.
- */
-int intervalo_comparacion (Intervalo, Intervalo);
-
 ITree itree_intersecar (ITree, Intervalo);
+
+#define COUNT 10
 
 void print2D(ITree arbol);
 

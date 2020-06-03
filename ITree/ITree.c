@@ -5,8 +5,6 @@
 #include "Cola/cola.h"
 #include "Pila/pilaG.h"
 
-
-
 ITree itree_crear (){
   return NULL;
 }
@@ -151,7 +149,6 @@ void itree_eliminar_dato (ITree *arbol, Intervalo datoQueEliminar){
   }
 }
 
-
 Intervalo itree_eliminar_minimo (ITree *arbol){
   Intervalo minimo;
   if ((*arbol)->left == NULL){
@@ -164,15 +161,6 @@ Intervalo itree_eliminar_minimo (ITree *arbol){
   }
   return minimo;
 }
-
-// void itree_destruir (ITree raiz, FuncionLibertadora liberadora) {
-//   if (raiz != NULL){
-//     itree_destruir (raiz->left, liberadora);
-//     itree_destruir (raiz->right, liberadora);
-//     liberadora (raiz->dato);
-//     free (raiz)
-//   }
-// }
 
 void itree_destruir (ITree raiz){
   if (raiz != NULL){
@@ -237,32 +225,6 @@ void itree_mayor_extDer (ITree *arbol){
   (*arbol)->maxExtDer = maxExtDer;
 }
 
-void imprimir_intervalo (Intervalo intervalo){
-  printf ("[%0.1f, %0.1f] ", intervalo.extIzq, intervalo.extDer);
-}
-
-int intervalo_comparacion (Intervalo intervalo1, Intervalo intervalo2){
-  int devolver = 0;
-
-
-  if (intervalo1.extIzq > intervalo2.extIzq){
-    devolver = 1;
-  }
-  else if (intervalo1.extIzq < intervalo2.extIzq){
-    devolver = -1;
-  }
-  else if (intervalo1.extIzq == intervalo2.extIzq){
-    if (intervalo1.extDer > intervalo2.extDer){
-      devolver = 1;
-    }
-    else if (intervalo1.extDer < intervalo2.extDer) {
-      devolver = -1;
-    }
-  }
-
-  return devolver;
-}
-
 // Wrapper over print2DUtil()
 void print2D(ITree arbol){
    // Pass initial space count as 0
@@ -285,7 +247,7 @@ void print2DUtil(ITree arbol, int space){
     printf("\n");
     for (int i = COUNT; i < space; i++)
         printf(" ");
-    imprimir_intervalo (arbol->intervalo);
+    intervalo_imprimir (arbol->intervalo);
 
     // Process left child
     print2DUtil(arbol->left, space);

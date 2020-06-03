@@ -6,6 +6,8 @@ pilaG = ITree/Pila/pilaG
 pruebaPila = ITree/Pila/pruebaPila
 cola = ITree/Cola/cola
 pruebaCola = ITree/Cola/pruebaCola
+intervalos = ITree/Intervalos/intervalos
+pruebaIntervalo = ITree/Intervalos/pruebaIntervalo
 
 pruebas: pruebaCola pruebaPila pruebaITree
 
@@ -29,14 +31,25 @@ pruebaPila.o: $(pruebaPila).c
 	gcc $(flags) $(pruebaPila).c
 
 
-pruebaITree: $(pilaG).o $(cola).o $(ITree).o $(pruebaITree).o
-	gcc -o testITree.out $(ITree).o $(pruebaITree).o $(pilaG).o $(cola).o
+pruebaITree: $(pilaG).o $(cola).o $(ITree).o $(intervalos).o $(pruebaITree).o
+	gcc -o testITree.out $(ITree).o $(pruebaITree).o $(pilaG).o $(cola).o $(intervalos).o
 
-avltree.o: $(pilaG).h $(cola).h $(ITree).c $(ITree).h
+itree.o: $(pilaG).h $(cola).h $(intervalos).h $(ITree).h $(ITree).c
 	gcc $(flags) $(ITree).c
 
 pruebaITree.o: $(pruebaITree).c
 	gcc $(flags) $(pruebaITree).c
+
+
+pruebaIntervalo: $(pruebaIntervalo).o $(intervalos).o
+	gcc -o testIntervalo.out $(intervalos).o $(pruebaIntervalo).o
+
+intervalos.o: $(intervalos).c $(intervalos).h
+	gcc $(flags) $(intervalos).c
+
+pruebaIntervalo.o: $(pruebaIntervalo).c
+	gcc $(flags) $(pruebaIntervalo).c
+
 
 
 cleanLin:
