@@ -57,17 +57,21 @@ void itree_insertar (ITree *arbol, Intervalo nIntervalo){
     nuevoSubarbol->right = itree_crear ();
     *arbol = nuevoSubarbol;
   }
-  else { // Notese "<" tendra que ser cambiado por una f.
+  else {
+    int comparacion = intervalo_comparacion (nIntervalo, (*arbol)->intervalo);
 
-    if (intervalo_mayor(nIntervalo, (*arbol)->intervalo)){
-      itree_insertar ((&(*arbol)->right), nIntervalo);
-    } else{
-      itree_insertar ((&(*arbol)->left), nIntervalo);
+    if (comparacion != 0){
+      if (comparacion > 0){
+        itree_insertar ((&(*arbol)->right), nIntervalo);
+      }
+      else if (comparacion < 0){
+        itree_insertar ((&(*arbol)->left), nIntervalo);
+      }
+
+      itree_mayor_extDer (arbol);
+      int balance = itree_balance (*arbol);
+      *arbol = itree_balancear (*arbol, balance);
     }
-
-    itree_mayor_extDer (arbol);
-    int balance = itree_balance (*arbol);
-    *arbol = itree_balancear (*arbol, balance);
   }
 }
 
@@ -100,64 +104,75 @@ ITree itree_balancear (ITree arbol, int factorBalance){
   return arbol;
 }
 
-// void itree_eliminar_dato (ITree *arbol, Intervalo datoQueEliminar){
-//   ITree nodoLiberar = NULL;
-//
-//   if ((*arbol)->dato == datoQueEliminar){
-//     if ((*arbol)->left == NULL && (*arbol)->right == NULL){
-//       free((*arbol));
-//       *arbol = NULL;
-//     }
-//     else if ((*arbol)->left == NULL){
-//       nodoLiberar = *arbol;
-//       *arbol = (*arbol)->right;
-//       free(nodoLiberar);
-//       nodoLiberar = NULL;
-//     }
-//     else if ((*arbol)->right == NULL){
-//       nodoLiberar = *arbol;
-//       *arbol = (*arbol)->left;
-//       free(nodoLiberar);
-//       nodoLiberar = NULL;
-//     }
-//     else{
-//       (*arbol)->dato = itree_eliminar_minimo(&((*arbol)->right));
-//     }
-//   }
-//   else{
-//     // printf("eliminando %d\n",arbol->dato);
-//     if ((*arbol)->dato > datoQueEliminar) {
-//       itree_eliminar_dato (&((*arbol)->left), datoQueEliminar);
-//     }
-//     else {
-//       itree_eliminar_dato (&((*arbol)->right), datoQueEliminar);
-//     }
-//     int balance = itree_balance (*arbol);
-//
-//     *arbol = itree_balancear (*arbol, balance);
+void itree_eliminar_dato (ITree *arbol, Intervalo datoQueEliminar){
+  if ((*arbol) != NULL){
+    ITree nodoLiberar = NULL;
+    int comparacion = intervalo_comparacion (datoQueEliminar, (*arbol)->intervalo);
+
+    if (comparacion == 0){
+      // Caso 1
+      if ((*arbol)->left == NULL && (*arbol)->right == NULL){
+        free((*arbol));
+        *arbol = NULL;
+      }
+      // Caso 2.1
+      else if ((*arbol)->left == NULL){
+        nodoLiberar = *arbol;
+        *arbol = (*arbol)->right;
+        free(nodoLiberar);
+        nodoLiberar = NULL;
+      }
+      // Caso 2.2
+      else if ((*arbol)->right == NULL){
+        nodoLiberar = *arbol;
+        *arbol = (*arbol)->left;
+        free(nodoLiberar);
+        nodoLiberar = NULL;
+      }
+      // Caso 3
+      else{
+        (*arbol)->intervalo = itree_eliminar_minimo(&((*arbol)->right));
+      }
+    }
+    else{
+      // Buscar a la izq.
+      if (comparacion < 0) {
+        itree_eliminar_dato (&((*arbol)->left), datoQueEliminar);
+      }
+      // Buscar a la der.
+      else {
+        itree_eliminar_dato (&((*arbol)->right), datoQueEliminar);
+      }
+      // Actualizar arbol luego de que se haya eliminado.
+      itree_mayor_extDer (arbol);
+      int balance = itree_balance (*arbol);
+      *arbol = itree_balancear (*arbol, balance);
+    }
+  }
+}
+
+
+Intervalo itree_eliminar_minimo (ITree *arbol){
+  Intervalo minimo;
+  if ((*arbol)->left == NULL){
+    minimo = (*arbol)->intervalo;
+    itree_eliminar_dato(arbol, (*arbol)->intervalo);
+  }
+  else{
+    minimo = itree_eliminar_minimo(&((*arbol)->left));
+    itree_mayor_extDer (arbol);
+  }
+  return minimo;
+}
+
+// void itree_destruir (ITree raiz, FuncionLibertadora liberadora) {
+//   if (raiz != NULL){
+//     itree_destruir (raiz->left, liberadora);
+//     itree_destruir (raiz->right, liberadora);
+//     liberadora (raiz->dato);
+//     free (raiz)
 //   }
 // }
-//
-// int itree_eliminar_minimo (ITree *arbol){
-//   int minimo = -1;
-//   if ((*arbol)->left == NULL){
-//     minimo = (*arbol)->dato;
-//     itree_eliminar_dato(arbol, (*arbol)->dato);
-//   }
-//   else{
-//     minimo = itree_eliminar_minimo(&((*arbol)->left));
-//   }
-//   return minimo;
-// }
-//
-// // void itree_destruir (ITree raiz, FuncionLibertadora liberadora) {
-// //   if (raiz != NULL){
-// //     itree_destruir (raiz->left, liberadora);
-// //     itree_destruir (raiz->right, liberadora);
-// //     liberadora (raiz->dato);
-// //     free (raiz)
-// //   }
-// // }
 
 void itree_destruir (ITree raiz){
   if (raiz != NULL){
@@ -226,8 +241,26 @@ void imprimir_intervalo (Intervalo intervalo){
   printf ("[%0.1f, %0.1f] ", intervalo.extIzq, intervalo.extDer);
 }
 
-int intervalo_mayor (Intervalo intervalo1, Intervalo intervalo2){
-  return intervalo1.extIzq > intervalo2.extIzq;
+int intervalo_comparacion (Intervalo intervalo1, Intervalo intervalo2){
+  int devolver = 0;
+
+
+  if (intervalo1.extIzq > intervalo2.extIzq){
+    devolver = 1;
+  }
+  else if (intervalo1.extIzq < intervalo2.extIzq){
+    devolver = -1;
+  }
+  else if (intervalo1.extIzq == intervalo2.extIzq){
+    if (intervalo1.extDer > intervalo2.extDer){
+      devolver = 1;
+    }
+    else if (intervalo1.extDer < intervalo2.extDer) {
+      devolver = -1;
+    }
+  }
+
+  return devolver;
 }
 
 // Wrapper over print2DUtil()

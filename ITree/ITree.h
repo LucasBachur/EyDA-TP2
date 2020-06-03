@@ -51,7 +51,7 @@ void itree_insertar (ITree *arbol, Intervalo);
 // No se sabe.
 void itree_eliminar_dato (ITree *arbol, Intervalo);
 // No se sabe.
-int itree_eliminar_minimo (ITree *arbol);
+Intervalo itree_eliminar_minimo (ITree *arbol);
 
 
 /**
@@ -71,13 +71,15 @@ void imprimir_intervalo (Intervalo);
 void itree_destruir (ITree raiz);
 
 /**
- *  Dados dos intervalos, compara los extremos izquierdos.
+ *  Dados dos intervalos, los compara y determina su relacion.
     devuelve: 1 si el primero es estrictamente mayor al segundo.
-              -1 si es igual o es menor.
-    Esta implementado de esta forma puesto que si se repite un extremo izquierdo
-    se aclaro en consultar que se deberia insertar en el subarbol izquierdo.
+              -1 si es menor.
+              0 si es igual.
+    Explicar contexto.
  */
-int intervalo_mayor (Intervalo, Intervalo);
+int intervalo_comparacion (Intervalo, Intervalo);
+
+ITree itree_intersecar (ITree, Intervalo);
 
 void print2D(ITree arbol);
 
