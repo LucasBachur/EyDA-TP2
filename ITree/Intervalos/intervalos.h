@@ -30,7 +30,7 @@ void intervalo_imprimir (Intervalo intervalo);
 /**
  * Dado dos intervalos, determina si se intersecan.
  * Devuelve: 1 si hay interseccion.
- *           2 si no la hay.
+ *           0 si no la hay.
  */
 int intervalo_interseccion (Intervalo, Intervalo);
 

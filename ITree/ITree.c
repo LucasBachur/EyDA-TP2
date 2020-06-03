@@ -225,6 +225,22 @@ void itree_mayor_extDer (ITree *arbol){
   (*arbol)->maxExtDer = maxExtDer;
 }
 
+ITree itree_intersecar (ITree arbol, Intervalo intervaloQueInterseca){
+  ITree resultado = NULL;
+  if (arbol != NULL){
+    if (intervalo_interseccion(arbol->intervalo, intervaloQueInterseca) == 1){
+      resultado = arbol;
+    }
+    else if(arbol->left != NULL && intervaloQueInterseca.extIzq <= arbol->left->maxExtDer){
+      resultado = itree_intersecar (arbol->left, intervaloQueInterseca);
+    }
+    else {
+      resultado = itree_intersecar (arbol->right, intervaloQueInterseca);
+    }
+  }
+  return resultado;
+}
+
 // Wrapper over print2DUtil()
 void print2D(ITree arbol){
    // Pass initial space count as 0
@@ -248,6 +264,10 @@ void print2DUtil(ITree arbol, int space){
     for (int i = COUNT; i < space; i++)
         printf(" ");
     intervalo_imprimir (arbol->intervalo);
+    printf("\n");
+    for (int i = COUNT; i < space; i++)
+        printf(" ");
+    printf(" %0.1f", arbol->maxExtDer);
 
     // Process left child
     print2DUtil(arbol->left, space);
