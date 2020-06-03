@@ -3,18 +3,15 @@
 #include "cola.h"
 
 Cola cola_crear (){
-  Cola cola;
-  cola.principio = NULL;
-  cola.final = NULL;
-  return cola;
+  return NULL;
 }
 
 int cola_es_vacia (Cola cola){
-  return cola.final == NULL;
+  return cola == NULL;
 }
 
 void* cola_primero (Cola cola){
-  return cola.principio->dato;
+  return cola->principio->dato;
 }
 
 void cola_encolar (Cola *cola, void *dato){
@@ -23,32 +20,37 @@ void cola_encolar (Cola *cola, void *dato){
   nuevoNodo->sig = NULL;
 
   if (!cola_es_vacia(*cola)){
-    cola->final->sig = nuevoNodo;
+    (*cola)->final->sig = nuevoNodo;
   }
   else {
-    cola->principio = nuevoNodo;
+    (*cola) = malloc (sizeof (struct _Cola));
+    (*cola)->principio = nuevoNodo;
   }
 
-  cola->final = nuevoNodo;
+  (*cola)->final = nuevoNodo;
 }
 
 void cola_desencolar (Cola *cola){
   if (!cola_es_vacia (*cola)){
-    GNodo *libertador = cola->principio;
-    cola->principio = libertador->sig;
+    GNodo *libertador = (*cola)->principio;
+    (*cola)->principio = libertador->sig;
     free (libertador);
+    libertador = NULL;
 
-    if (cola->principio == NULL){
-      cola->final = NULL;
+    if ((*cola)->principio == NULL){
+      free (*cola);
+      (*cola) = NULL;
     }
   }
 }
 
 void cola_recorrer (Cola cola, FuncionVisitante visit){
-  GNodo *iterador = cola.principio;
+  if (!cola_es_vacia (cola)){
+    GNodo *iterador = cola->principio;
 
-  for (; iterador != NULL; iterador = iterador->sig){
-    visit (iterador->dato);
+    for (; iterador != NULL; iterador = iterador->sig){
+      visit (iterador->dato);
+    }
   }
 }
 

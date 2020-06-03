@@ -2,38 +2,42 @@
 #include <stdlib.h>
 #include "pilaG.h"
 
+void imprimir_int (void *dato){
+  printf ("%d ", (*(int*)dato));
+}
 
-// Funcion para imprimir ints esta hecha en el punto h porque nos pinto.
-
+void sumar1 (void *dato){
+  (*(int*)dato) = (*(int*)dato) + 1;
+}
 
 int main (){
   // Creando la pila.
   Pila pilaEjemplo = pila_crear ();
-
   int datosPrueba[10] = {0,1,2,3,4,5,6,7,8,9};
 
-  void *auxiliar;
+  // Apilando elementos.
   for (int i = 0; i < 10; ++i){
-    // Apilando un entero.
+    printf ("Apilando |%d|:\n", datosPrueba[i]);
     pila_apilar (&pilaEjemplo, datosPrueba + i);
-    pila_enteros_imprimir (pilaEjemplo);
-    printf ("\n");
+    // Mostrando pila.
+    pila_recorrer (pilaEjemplo, imprimir_int); printf ("\n");
   }
 
+  printf ("\n\n");
+
+  // Desapilando elementos.
   for (int i = 0; i < 5; ++i){
-    // Desapilando un elemento.
+    printf ("Desapilando elementos y mostrando el primero: ");
     pila_desapilar (&pilaEjemplo);
-    pila_enteros_imprimir (pilaEjemplo);
-    printf ("\n");
+    printf ("%d.\n", (*(int*) pila_ultimo (pilaEjemplo) ));
+    pila_recorrer (pilaEjemplo, imprimir_int); printf ("\n");
   }
 
+  // Sumando 1 a cada elemento de la pila.
+  printf ("\n\nSumando uno a cada elemento:\n");
+  pila_recorrer (pilaEjemplo, sumar1);
+  pila_recorrer (pilaEjemplo, imprimir_int);
 
-  for (int i = 0; i < 5; ++i){
-    // Apilando un entero y mostrandolo.
-    pila_apilar (&pilaEjemplo, datosPrueba + i);
-    printf ("%d ", (*(int*) pila_ultimo (pilaEjemplo) ));
-    printf ("\n");
-  }
 
   pila_destruir (pilaEjemplo);
   return 0;

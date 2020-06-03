@@ -1,20 +1,26 @@
 /**
- * Funciones de colas generales.
+ * Archivo de cabecera de nuestra implementacion de colas enlazadas.
  */
 
 #ifndef __cola_h__
 #define __cola_h__
 
+/**
+ * Estructura de nodo para cada elemento de la cola.
+ */
 typedef struct _GNodo {
   void *dato;
   struct _GNodo *sig;
 } GNodo;
 
+
+/**
+ * Estructura de la cola.
+ */ 
 typedef struct _Cola {
   GNodo *principio;
   GNodo *final;
-} Cola;
-// Por que no *Cola?
+} *Cola;
 
 typedef void (*FuncionVisitante) (void *dato);
 
@@ -24,34 +30,39 @@ typedef void (*FuncionVisitante) (void *dato);
 Cola cola_crear ();
 
 /**
- * Determina si una cola es vacia o no.
+ * Dada una cola, determina si esta es vacia o no.
+ * Devuelve:  1 si es vacia.
+ *            0 si es no vacia.
  */
 int cola_es_vacia (Cola);
 
 /**
- * Crea un cola
+ * Dada una cola.
+ * Devuelve el dato del primer elemento.
  */
 void* cola_primero (Cola);
 
 /**
- * Crea un cola
+ * Dado un apuntador a una cola y un dato.
+ * Modifica la cola, creando un nuevo nodo y colocandolo al final.
  */
-void cola_encolar (Cola*, void*);
+void cola_encolar (Cola* , void*);
 
 /**
- * Crea un cola
+ * Dado un apuntador cola.
+ * Modifica la cola, quitando el primer elemento de la misma y liberandolo.
  */
 void cola_desencolar (Cola*);
 
 /**
- * Crea un cola
+ * Dada una cola y una funcion.
+ * Recorre la cola aplicando la funcion a cada elemento.
  */
 void cola_recorrer (Cola, FuncionVisitante);
 
 /**
- * Crea un cola
+ * Dada un cola.
+ * Desencola todos los elementos hasta que la cola quede vacia.
  */
 void cola_destruir (Cola);
-
-
 #endif

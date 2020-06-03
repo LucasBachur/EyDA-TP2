@@ -18,29 +18,28 @@ void pila_apilar (Pila *pila, void *dato){
   PGNodo *nuevoNodo = malloc (sizeof (PGNodo));
   nuevoNodo->dato = dato;
 
-  nuevoNodo->next = *pila;
+  nuevoNodo->sig = *pila;
   *pila = nuevoNodo;
 }
 
 void pila_desapilar (Pila *pila){
   if (!pila_es_vacia (*pila)){
-    PGNodo *temp = (*pila)->next;
+    PGNodo *temp = (*pila)->sig;
     PGNodo *desapilado = *pila;
     *pila = temp;
     free (desapilado);
   }
 }
 
-void pila_enteros_imprimir (Pila pila){
+void pila_recorrer (Pila pila, FuncionVisitante visit){
   while (pila != NULL){
-    printf ("|%d| ", (*(int*)pila_ultimo (pila)));
-    pila = pila->next;
+    visit (pila->dato);
+    pila = pila->sig;
   }
 }
 
 void pila_destruir (Pila pila){
-  if (!pila_es_vacia(pila)){
+  while (!pila_es_vacia(pila)){
     pila_desapilar (&pila);
-    pila_destruir (pila);
   }
 }

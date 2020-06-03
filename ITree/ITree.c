@@ -171,7 +171,7 @@ void itree_recorrer_bfs (ITree arbol, FuncionQueVisita visit){
   if (arbol != NULL){
     Cola queue = cola_crear ();
     cola_encolar (&queue, arbol);
-    ITree nodo = cola_primero (queue);
+    ITree nodo;
 
     while (!cola_es_vacia (queue)){
       nodo = cola_primero (queue);
@@ -189,7 +189,7 @@ void itree_recorrer_dfs (ITree arbol, FuncionQueVisita visit){
   if (arbol != NULL){
     Pila stack = pila_crear ();
     pila_apilar (&stack, arbol);
-    ITree nodo = pila_ultimo (stack);
+    ITree nodo;
 
     while (!pila_es_vacia (stack)){
       nodo = pila_ultimo (stack);
@@ -223,7 +223,7 @@ void itree_mayor_extDer (ITree *arbol){
 }
 
 void imprimir_intervalo (Intervalo intervalo){
-  printf ("[%0.1f, %0.1f]", intervalo.extIzq, intervalo.extDer);
+  printf ("[%0.1f, %0.1f] ", intervalo.extIzq, intervalo.extDer);
 }
 
 int intervalo_mayor (Intervalo intervalo1, Intervalo intervalo2){
