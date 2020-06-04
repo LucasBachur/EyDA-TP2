@@ -46,7 +46,7 @@ int main (){
 
 char validar_entrada (char* entrada, Intervalo* intervalo){
   char accion = ' ';
-  printf ("Validando entrada...\n");
+  //printf ("Validando entrada...\n");
 
   if (!strcmp (entrada, "dfs")){
     accion = 'd';
@@ -65,7 +65,7 @@ char validar_entrada (char* entrada, Intervalo* intervalo){
 
     for (; entrada[i] != ']' && entrada[i] != '\0' && !sePusoCualquieraEnElIntervalo; ++i){
       if (entrada[i] == ',' && comaValida == 0 && (entrada[i - 1] >= '0' && entrada[i - 1] <= '9') && (entrada[i + 1] >= '0' && entrada[i + 1] <= '9')) {
-        printf ("puso la coma\n");
+        //printf ("puso la coma\n");
         comaValida = 1;
         punto = 0;
       }
@@ -73,7 +73,7 @@ char validar_entrada (char* entrada, Intervalo* intervalo){
         punto = 1;
       else if (entrada[i] < '0' || entrada[i] > '9')
         sePusoCualquieraEnElIntervalo = 1;
-      printf ("Caracter: |%c|\n", entrada[i]);
+      //printf ("Caracter: |%c|\n", entrada[i]);
     }
 
     if (sePusoCualquieraEnElIntervalo == 1){
@@ -89,7 +89,6 @@ char validar_entrada (char* entrada, Intervalo* intervalo){
       printf ("Mas de un argumento, o basura");
     }
     else {
-      printf ("GRAXCIAS\n.\n");
       sscanf (entrada + 3, "%lf,%lf]", &(intervalo->extIzq), &(intervalo->extDer));
       accion = entrada[0];
     }
@@ -105,7 +104,7 @@ void interprete (ITree arbol, Intervalo *intervalo){
   scanf ("%[^\n]\n", buffer);
   char accion = validar_entrada (buffer, intervalo);
   ITree resultado;
-
+  //printf("%c\n",accion);
   switch (accion) {
     case 'i':
       itree_insertar (&arbol, *intervalo);
