@@ -1,4 +1,4 @@
-flags = -Wall -Werror -Wextra -g -c
+flags = -Wall -Werror -Wextra -g -c -Os
 
 ITree = ITree/ITree
 pruebaITree = ITree/pruebaITree
@@ -9,7 +9,7 @@ pruebaCola = ITree/Cola/pruebaCola
 intervalos = ITree/Intervalos/intervalos
 pruebaIntervalo = ITree/Intervalos/pruebaIntervalo
 
-pruebas: pruebaCola pruebaPila pruebaITree
+pruebas: pruebaCola pruebaPila pruebaITree pruebaIntervalo
 
 pruebaCola: $(pruebaCola).o $(cola).o
 	gcc -o testCola.out $(pruebaCola).o $(cola).o
@@ -56,4 +56,4 @@ cleanLin:
 	rm -rf *.out *.o */*.o */*/*.o
 
 cleanWin:
-	del /Q /F ITree\Cola\*.o ITree\Pila\*.o ITree\*.o
+	del /Q /F ITree\Cola\*.o ITree\Pila\*.o ITree\Intervalos\*.o ITree\*.o *.o *.exe
