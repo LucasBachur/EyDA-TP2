@@ -1,14 +1,16 @@
 flags = -Wall -Werror -Wextra -g -c
 
-ITree = ITree/ITree
-pruebaITree = ITree/pruebaITree
-pilaG = ITree/Pila/pilaG
-pruebaPila = ITree/Pila/pruebaPila
-cola = ITree/Cola/cola
-pruebaCola = ITree/Cola/pruebaCola
-intervalos = ITree/Intervalos/intervalos
+ITree = Interprete/ITree/ITree
+pruebaITree = Interprete/ITree/pruebaITree
+pilaG = Interprete/ITree/Pila/pilaG
+pruebaPila = Interprete/ITree/Pila/pruebaPila
+cola = Interprete/ITree/Cola/cola
+pruebaCola = Interprete/ITree/Cola/pruebaCola
+intervalos = Interprete/ITree/Intervalos/intervalos
+interpretar = Interprete/interpretar
 
-pruebas: pruebaCola pruebaPila pruebaITree intervalos.o
+## FOR WINDOWS ##
+pruebas: pruebaCola pruebaPila pruebaITree intervalos.o interpretar
 
 pruebaCola: pruebaCola.o cola.o
 	gcc -o testCola.out pruebaCola.o cola.o
@@ -30,10 +32,10 @@ pruebaPila.o: $(pruebaPila).c
 	gcc $(flags) $(pruebaPila).c
 
 
-pruebaITree: pilaG.o cola.o itree.o intervalos.o pruebaITree.o
+pruebaITree: pilaG.o cola.o ITree.o intervalos.o pruebaITree.o
 	gcc -o testITree.out pilaG.o cola.o ITree.o intervalos.o pruebaITree.o
 
-itree.o: $(pilaG).h $(cola).h $(intervalos).h $(ITree).h $(ITree).c
+ITree.o: $(pilaG).h $(cola).h $(intervalos).h $(ITree).h $(ITree).c
 	gcc $(flags) $(ITree).c
 
 pruebaITree.o: $(pruebaITree).c
@@ -43,9 +45,14 @@ pruebaITree.o: $(pruebaITree).c
 intervalos.o: $(intervalos).c $(intervalos).h
 	gcc $(flags) $(intervalos).c
 
+interpretar: interpretar.o pilaG.o cola.o ITree.o intervalos.o
+	gcc -o testInterpretar.out interpretar.o pilaG.o cola.o ITree.o intervalos.o
 
-cleanLin:
-	rm -rf *.out *.o */*.o */*/*.o
+interpretar.o: $(interpretar).c
+	gcc $(flags) $(interpretar).c
 
 cleanWin:
 	del /Q /F ITree\Cola\*.o ITree\Pila\*.o ITree\Intervalos\*.o ITree\*.o *.o *.exe *.out
+
+cleanLin:
+	rm -rf *.out *.o */*.o */*/*.o

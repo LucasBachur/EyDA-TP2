@@ -31,7 +31,7 @@ int intervalo_comparacion (Intervalo intervalo1, Intervalo intervalo2){
 }
 
 void intervalo_imprimir (Intervalo intervalo){
-  printf ("[%0.1f, %0.1f] ", intervalo.extIzq, intervalo.extDer);
+  printf ("[%lf, %lf] ", intervalo.extIzq, intervalo.extDer);
 }
 
 int intervalo_interseccion (Intervalo intervalo1, Intervalo intervalo2){

@@ -1,4 +1,4 @@
-#ifndef __ITreeree_H__
+#ifndef __ITree_H__
 #define __ITree_H__
 
 #include "Intervalos/intervalos.h"

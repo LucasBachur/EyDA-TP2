@@ -23,11 +23,11 @@ int main() {
   printf ("IMPRIMIENDO ARBOL  chad OWO!\n\n");
   print2D (arbolEjemplo);*/
 
-  // printf ("\n\nImprimiendo arbol con dfs pre-order!\n\n");
-  // itree_recorrer_dfs (arbolEjemplo, imprimir_intervalo);
-  //
-  // printf ("\n\nImprimiendo arbol bfs!\n\n");
-  // itree_recorrer_bfs (arbolEjemplo, imprimir_intervalo);
+  printf ("\n\nImprimiendo arbol con dfs pre-order!\n\n");
+  itree_recorrer_dfs (arbolEjemplo, intervalo_imprimir);
+
+  printf ("\n\nImprimiendo arbol bfs!\n\n");
+  itree_recorrer_bfs (arbolEjemplo, intervalo_imprimir);
 
   // Eliminado datos y mostrando.
   /*for (int i = 0; i < 3; ++i){
