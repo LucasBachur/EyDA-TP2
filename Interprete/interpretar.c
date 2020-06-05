@@ -36,9 +36,9 @@ int main (){
   ITree arbolEjemplo = itree_crear ();
   Intervalo intervaloEjemplo;
 
-
-
   interprete (arbolEjemplo, &intervaloEjemplo);
+
+  itree_destruir(arbolEjemplo);
 
 
   return 0;
@@ -100,11 +100,10 @@ char validar_entrada (char* entrada, Intervalo* intervalo){
 }
 
 void interprete (ITree arbol, Intervalo *intervalo){
-  char buffer[80];
-  scanf ("%[^\n]\n", buffer);
+  char buffer[80], barra[1];
+  scanf ("%[^\n]%c", buffer, barra);
   char accion = validar_entrada (buffer, intervalo);
   ITree resultado;
-  //printf("%c\n",accion);
   switch (accion) {
     case 'i':
       itree_insertar (&arbol, *intervalo);
@@ -123,16 +122,19 @@ void interprete (ITree arbol, Intervalo *intervalo){
       else {
         printf ("Si, ");
         intervalo_imprimir (resultado->intervalo);
+        printf("\n");
       }
 
       interprete (arbol, intervalo);
       break;
     case 'd':
       itree_recorrer_dfs (arbol, intervalo_imprimir);
+      printf("\n");
       interprete (arbol, intervalo);
       break;
     case 'b':
       itree_recorrer_bfs (arbol, intervalo_imprimir);
+      printf("\n");
       interprete (arbol, intervalo);
       break;
     case 's':
