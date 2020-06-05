@@ -38,3 +38,7 @@ int intervalo_interseccion (Intervalo intervalo1, Intervalo intervalo2){
   return (intervalo1.extIzq <= intervalo2.extDer &&
           intervalo2.extIzq <= intervalo1.extDer);
 }
+
+int validar_intervalo (Intervalo intervalo){
+  return intervalo.extIzq < intervalo.extDer;
+}
