@@ -50,6 +50,11 @@ int main() {
   if(interseccion == NULL) printf("NULL");
   else intervalo_imprimir(interseccion->intervalo);
 
+  printf("\n");
+
+  printf("%d\n",itree_altura(arbolEjemplo));
+
   itree_destruir (arbolEjemplo);
+
   return 0;
 }

@@ -13,6 +13,7 @@ typedef void (*FuncionQueVisita) (Intervalo dato);
 typedef struct _ITreeNodo {
   Intervalo intervalo;
   double maxExtDer;
+  int altura;
   struct _ITreeNodo *left;
   struct _ITreeNodo *right;
 } ITreeNodo;
@@ -60,6 +61,8 @@ void itree_recorrer_dfs (ITree arbol, FuncionQueVisita visit);
 void itree_recorrer_bfs (ITree arbol, FuncionQueVisita visit);
 
 void itree_mayor_extDer (ITree *arbol);
+
+void itree_actualizar_altura (ITree *arbol);
 
 void itree_destruir (ITree raiz);
 

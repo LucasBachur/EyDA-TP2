@@ -18,7 +18,8 @@ int itree_altura(ITree arbol){
   int altura = -1;
 
   if(arbol != NULL){
-    altura = max2( 1 + itree_altura(arbol->left), 1 + itree_altura(arbol->right));
+    //altura = max2( 1 + itree_altura(arbol->left), 1 + itree_altura(arbol->right));
+    altura = arbol->altura;
   }
 
   return altura;
@@ -27,10 +28,16 @@ int itree_altura(ITree arbol){
 ITree itree_rotacion_der (ITree arbol){
   ITree nodoRelevante = arbol->left;
   arbol->left = nodoRelevante->right;
+
+  itree_actualizar_altura(&arbol);
+
   nodoRelevante->right = arbol;
+
+  itree_actualizar_altura(&nodoRelevante);
 
   itree_mayor_extDer (&(nodoRelevante->right));
   itree_mayor_extDer (&nodoRelevante);
+
 
   return nodoRelevante;
 }
@@ -38,7 +45,12 @@ ITree itree_rotacion_der (ITree arbol){
 ITree itree_rotacion_izq (ITree arbol){
   ITree nodoRelevante = arbol->right;
   arbol->right = nodoRelevante->left;
+
+  itree_actualizar_altura(&arbol);
+
   nodoRelevante->left = arbol;
+
+  itree_actualizar_altura(&nodoRelevante);
 
   itree_mayor_extDer (&(nodoRelevante->left));
   itree_mayor_extDer (&nodoRelevante);
@@ -51,6 +63,7 @@ void itree_insertar (ITree *arbol, Intervalo nIntervalo){
     ITree nuevoSubarbol = malloc (sizeof (ITreeNodo));
     nuevoSubarbol->intervalo = nIntervalo;
     nuevoSubarbol->maxExtDer = nIntervalo.extDer;
+    nuevoSubarbol->altura = 0;
     nuevoSubarbol->left = itree_crear ();
     nuevoSubarbol->right = itree_crear ();
     *arbol = nuevoSubarbol;
@@ -67,6 +80,9 @@ void itree_insertar (ITree *arbol, Intervalo nIntervalo){
       }
 
       itree_mayor_extDer (arbol);
+
+      itree_actualizar_altura(arbol);
+
       int balance = itree_balance (*arbol);
       *arbol = itree_balancear (*arbol, balance);
     }
@@ -143,6 +159,9 @@ void itree_eliminar_dato (ITree *arbol, Intervalo datoQueEliminar){
       }
       // Actualizar arbol luego de que se haya eliminado.
       itree_mayor_extDer (arbol);
+
+      itree_actualizar_altura(arbol);
+
       int balance = itree_balance (*arbol);
       *arbol = itree_balancear (*arbol, balance);
     }
@@ -158,6 +177,7 @@ Intervalo itree_eliminar_minimo (ITree *arbol){
   else{
     minimo = itree_eliminar_minimo(&((*arbol)->left));
     itree_mayor_extDer (arbol);
+    itree_actualizar_altura(arbol);
   }
   return minimo;
 }
@@ -223,6 +243,10 @@ void itree_mayor_extDer (ITree *arbol){
   }
 
   (*arbol)->maxExtDer = maxExtDer;
+}
+
+void itree_actualizar_altura (ITree *arbol){
+  (*arbol)->altura = max2(itree_altura((*arbol)->left),itree_altura((*arbol)->right))+1;
 }
 
 ITree itree_intersecar (ITree arbol, Intervalo intervaloQueInterseca){

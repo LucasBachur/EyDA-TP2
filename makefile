@@ -9,7 +9,6 @@ pruebaCola = Interprete/ITree/Cola/pruebaCola
 intervalos = Interprete/ITree/Intervalos/intervalos
 interpretar = Interprete/interpretar
 
-## FOR WINDOWS ##
 all: puntoO pruebas
 
 interprete: puntoO
