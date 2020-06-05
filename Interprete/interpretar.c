@@ -110,7 +110,7 @@ void interprete (ITree arbol, Intervalo *intervalo){
       interprete (arbol, intervalo);
       break;
     case 'e':
-      itree_insertar (&arbol, *intervalo);
+      itree_eliminar_dato (&arbol, *intervalo);
       interprete (arbol, intervalo);
       break;
     case '?':
@@ -123,6 +123,7 @@ void interprete (ITree arbol, Intervalo *intervalo){
         printf ("Si, ");
         intervalo_imprimir (resultado->intervalo);
         printf("\n");
+        itree_destruir (resultado);
       }
 
       interprete (arbol, intervalo);

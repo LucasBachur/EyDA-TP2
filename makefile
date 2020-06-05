@@ -10,49 +10,41 @@ intervalos = Interprete/ITree/Intervalos/intervalos
 interpretar = Interprete/interpretar
 
 ## FOR WINDOWS ##
-pruebas: pruebaCola pruebaPila pruebaITree intervalos.o interpretar
+all: puntoO pruebas
 
-pruebaCola: pruebaCola.o cola.o
-	gcc -o testCola.out pruebaCola.o cola.o
+interprete: puntoO
+	gcc -o interprete.out $(pilaG).o $(cola).o $(ITree).o $(intervalos).o $(interpretar).o
 
-cola.o: $(cola).c $(cola).h
-	gcc $(flags) $(cola).c
+puntoO: colas.o pilas.o intervalos.o ITrees.o interpretar.o
 
-pruebaCola.o: $(pruebaCola).c
-	gcc $(flags) $(pruebaCola).c
+pruebas: pruebaCola pruebaPila pruebaITree
 
+pruebaCola: $(pruebaCola).o $(cola).o
+	gcc -o testCola.out $(pruebaCola).o $(cola).o
 
-pruebaPila: pilaG.o pruebaPila.o
-	gcc -o testPila.out pilaG.o pruebaPila.o
+pruebaPila: $(pilaG).o $(pruebaPila).o
+	gcc -o testPila.out $(pilaG).o $(pruebaPila).o
 
-pilaG.o: $(pilaG).c $(pilaG).h
-	gcc $(flags) $(pilaG).c
+pruebaITree: $(pilaG).o $(cola).o $(ITree).o $(intervalos).o $(pruebaITree).o
+	gcc -o testITree.out $(pilaG).o $(cola).o $(ITree).o $(intervalos).o $(pruebaITree).o
 
-pruebaPila.o: $(pruebaPila).c
-	gcc $(flags) $(pruebaPila).c
+colas.o:
+	$(MAKE) -C Interprete/ITree/Cola
 
+pilas.o:
+	$(MAKE) -C Interprete/ITree/Pila
 
-pruebaITree: pilaG.o cola.o ITree.o intervalos.o pruebaITree.o
-	gcc -o testITree.out pilaG.o cola.o ITree.o intervalos.o pruebaITree.o
+intervalos.o:
+	$(MAKE) -C Interprete/ITree/Intervalos
 
-ITree.o: $(pilaG).h $(cola).h $(intervalos).h $(ITree).h $(ITree).c
-	gcc $(flags) $(ITree).c
+ITrees.o:
+	$(MAKE) -C Interprete/ITree
 
-pruebaITree.o: $(pruebaITree).c
-	gcc $(flags) $(pruebaITree).c
-
-
-intervalos.o: $(intervalos).c $(intervalos).h
-	gcc $(flags) $(intervalos).c
-
-interpretar: interpretar.o pilaG.o cola.o ITree.o intervalos.o
-	gcc -o testInterpretar.out interpretar.o pilaG.o cola.o ITree.o intervalos.o
-
-interpretar.o: $(interpretar).c
-	gcc $(flags) $(interpretar).c
+interpretar.o:
+	$(MAKE) -C Interprete
 
 cleanWin:
 	del /Q /F ITree\Cola\*.o ITree\Pila\*.o ITree\Intervalos\*.o ITree\*.o *.o *.exe *.out
 
 cleanLin:
-	rm -rf *.out *.o */*.o */*/*.o
+	rm -rf *.out *.o */*.o */*.out */*/*.o */*/*.out */*/*/*.o */*/*/*.out
