@@ -61,24 +61,31 @@ char validar_entrada (char* entrada, Intervalo* intervalo){
     int comaValida = 0;
     int punto = 0;
     int sePusoCualquieraEnElIntervalo = 0;
+    int espacioEnCualquierLado = 0;
+    int menos = 0;
     int i = 3;
 
-    for (; entrada[i] != ']' && entrada[i] != '\0' && !sePusoCualquieraEnElIntervalo; ++i){
-      if (entrada[i] == ',' && comaValida == 0 && (entrada[i - 1] >= '0' && entrada[i - 1] <= '9') && (entrada[i + 1] >= '0' && entrada[i + 1] <= '9')) {
-        //printf ("puso la coma\n");
+    for (; entrada[i] != ']' && entrada[i] != '\0' && !sePusoCualquieraEnElIntervalo && !espacioEnCualquierLado; ++i){
+      if (entrada[i] == ',' && comaValida == 0 && (entrada[i - 1] >= '0' && entrada[i - 1] <= '9') && ((entrada[i + 1] >= '0' && entrada[i + 1] <= '9') || entrada[i + 1] == ' ')) {
         comaValida = 1;
         punto = 0;
+        menos = 0;
       }
-      else if (entrada[i] == '.' && punto == 0)
+      else if (entrada[i] == '-' && menos == 0)
+        menos = 1;
+      else if (entrada[i] == '.' && punto == 0 && (entrada[i - 1] >= '0' && entrada[i - 1] <= '9') && (entrada[i + 1] >= '0' && entrada[i + 1] <= '9'))
         punto = 1;
-      else if (entrada[i] < '0' || entrada[i] > '9')
+      else if ((entrada[i] < '0' || entrada[i] > '9') && entrada[i] != ' ')
         sePusoCualquieraEnElIntervalo = 1;
-      //printf ("Caracter: |%c|\n", entrada[i]);
+      else if(entrada[i] == ' ' && ( entrada[i-1] != ',' || (entrada[i+1] < '0' || entrada[i+1] > '9')))
+        espacioEnCualquierLado = 1;
     }
 
     if (sePusoCualquieraEnElIntervalo == 1){
       printf ("Argumento no valido, los componentes del intervalo no son numeros\n");
     }
+    else if (espacioEnCualquierLado)
+      printf("Hay AL MENOS un espacio en cualquier lado\n");
     else if (entrada[i] == '\0'){
       printf ("Falta cerrar con un ] hermano.\n");
     }
@@ -86,11 +93,14 @@ char validar_entrada (char* entrada, Intervalo* intervalo){
       printf ("El intervalo esta incompleto. Tiene una cantidad de numeros < 2.\n");
     }
     else if (entrada[i + 1] != '\0') {
-      printf ("Mas de un argumento, o basura");
+      printf ("Mas de un argumento, o basura\n");
     }
     else {
       sscanf (entrada + 3, "%lf,%lf]", &(intervalo->extIzq), &(intervalo->extDer));
-      accion = entrada[0];
+      if (intervalo->extIzq > intervalo->extDer)
+        printf ("Intervalo invalido: El extremo izquierdo es mayor que el derecho\n");
+      else
+        accion = entrada[0];
     }
   }
   else {
