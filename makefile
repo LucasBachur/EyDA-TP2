@@ -44,7 +44,7 @@ interpretar.o:
 	$(MAKE) -C Interprete
 
 cleanWin:
-	del /Q /F ITree\Cola\*.o ITree\Pila\*.o ITree\Intervalos\*.o ITree\*.o *.o *.exe *.out
+	del /Q /F Interprete\*.o Interprete\ITree\Cola\*.o Interprete\ITree\Pila\*.o Interprete\ITree\Intervalos\*.o Interprete\ITree\*.o *.o *.exe *.out
 
 cleanLin:
 	rm -rf *.out *.o */*.o */*.out */*/*.o */*/*.out */*/*/*.o */*/*/*.out

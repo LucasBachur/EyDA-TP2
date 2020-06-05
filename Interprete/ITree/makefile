@@ -11,5 +11,5 @@ all: ITree.o pruebaITree.o
 ITree.o: $(ITree).c $(ITree).h $(pila).h $(intervalos).h $(cola).h
 	gcc $(flags) $(ITree).c
 
-prubaITree.o: $(pruebaITree).c
-	gcc $(flags) $(prubaITree).c
+pruebaITree.o: $(pruebaITree).c
+	gcc $(flags) $(pruebaITree).c

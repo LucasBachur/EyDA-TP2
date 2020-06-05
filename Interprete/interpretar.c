@@ -139,7 +139,7 @@ void interprete (ITree arbol, Intervalo *intervalo){
       interprete (arbol, intervalo);
       break;
     case 's':
-      printf ("Gracias por usar el interprete!\n(puto)");
+      printf ("Gracias por usar el interprete!\n");
       break;
     default:
       interprete (arbol, intervalo);
