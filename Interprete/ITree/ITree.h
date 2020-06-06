@@ -4,11 +4,6 @@
 #include "Intervalos/intervalos.h"
 
 typedef void (*FuncionQueVisita) (Intervalo dato);
-// typedef void (*FuncionLibertadora) (void*);
-// /** No se sabe.
-//  * Destruye un arbol liberando su memoria.
-//  */
-// void itree_destruir (ITree arbol, FuncionLibertadora);
 
 typedef struct _ITreeNodo {
   Intervalo intervalo;
@@ -24,20 +19,52 @@ typedef ITreeNodo *ITree;
 #define max3(x, y, z) (max2 (x, max2 (y, z)))
 
 /**
- * Devuelve un arbol vacío.
+ * Devuelve lo que determinamos como un arbol vacio.
  */
 ITree itree_crear ();
 
-int itree_balance (ITree arbol);
-
+/**
+ * Dado un arbol.
+ * Devuelve la altura del mismo.
+ * Aunque en la declaracion del tipo de dato de arboles agregamos un campo
+ * que guarda la altura del arbol, decidimos hacer esta funcion puesto que
+ * como consideramos al arbol vacio como NULL, este no tiene campo altura.
+ */
 int itree_altura(ITree arbol);
 
+/**
+ * Dado un arbol.
+ * Devuelve el factor de balance de un arbol.
+ * Definido como la altura del subarbol izquierdo menos la del subarbol derecho.
+ */
+int itree_factor_balance (ITree arbol);
 
-ITree itree_rotacion_izq (ITree arbol);
+/**
+ * Dado un arbol, obtiene su factor de balance y de ser nesecario lo balancea
+ * aplicando las rotaciones correspondientes y actualizando sus campos de altura
+ * y maxExtDer.
+ * Devuelve el arbol rotado.
+ */
+ITree itree_balancear (ITree arbol);
 
+/**
+ * Dado un arbol, realiza una rotacion simple a derecha. Ademas se actualizan
+ * los campos de altura y maxExtDer de forma que el arbol resultante sea
+ * correcto.
+ * Devuelve el arbol luego de la rotacion.
+ */
 ITree itree_rotacion_der (ITree arbol);
 
-ITree itree_balancear (ITree arbol, int factorBalance);
+/**
+ * Dado un arbol, realiza una rotacion simple a izquierda. Ademas se actualizan
+ * los campos de altura y maxExtDer de forma que el arbol resultante sea
+ * correcto.
+ * Devuelve el arbol luego de la rotacion.
+ */
+ITree itree_rotacion_izq (ITree arbol);
+
+// FALTA COMENTAR
+
 
 /**
  *  Dado un arbol y un objeto, lo inserta.

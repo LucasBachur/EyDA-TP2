@@ -2,7 +2,7 @@ flags = -Wall -Werror -Wextra -g -c
 
 ITree = Interprete/ITree/ITree
 pruebaITree = Interprete/ITree/pruebaITree
-pilaG = Interprete/ITree/Pila/pilaG
+pila = Interprete/ITree/Pila/pila
 pruebaPila = Interprete/ITree/Pila/pruebaPila
 cola = Interprete/ITree/Cola/cola
 pruebaCola = Interprete/ITree/Cola/pruebaCola
@@ -12,7 +12,7 @@ interpretar = Interprete/interpretar
 all: puntoO pruebas
 
 interprete: puntoO
-	gcc -o interprete.out $(pilaG).o $(cola).o $(ITree).o $(intervalos).o $(interpretar).o
+	gcc -o interprete.out $(pila).o $(cola).o $(ITree).o $(intervalos).o $(interpretar).o
 
 puntoO: colas.o pilas.o intervalos.o ITrees.o interpretar.o
 
@@ -21,11 +21,11 @@ pruebas: pruebaCola pruebaPila pruebaITree
 pruebaCola: $(pruebaCola).o $(cola).o
 	gcc -o testCola.out $(pruebaCola).o $(cola).o
 
-pruebaPila: $(pilaG).o $(pruebaPila).o
-	gcc -o testPila.out $(pilaG).o $(pruebaPila).o
+pruebaPila: $(pila).o $(pruebaPila).o
+	gcc -o testPila.out $(pila).o $(pruebaPila).o
 
-pruebaITree: $(pilaG).o $(cola).o $(ITree).o $(intervalos).o $(pruebaITree).o
-	gcc -o testITree.out $(pilaG).o $(cola).o $(ITree).o $(intervalos).o $(pruebaITree).o
+pruebaITree: $(pila).o $(cola).o $(ITree).o $(intervalos).o $(pruebaITree).o
+	gcc -o testITree.out $(pila).o $(cola).o $(ITree).o $(intervalos).o $(pruebaITree).o
 
 colas.o:
 	$(MAKE) -C Interprete/ITree/Cola

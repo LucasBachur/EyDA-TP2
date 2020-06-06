@@ -1,3 +1,7 @@
+/**
+ * Archivo para probar nuestra implementacion de colas.
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "cola.h"

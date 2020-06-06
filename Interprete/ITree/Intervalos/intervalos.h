@@ -1,31 +1,48 @@
+/**
+ * Archivo de cabecera de nuestra implementacion de intervalos.
+ */
+
 #ifndef __intervalos_h__
 #define __intervalos_h__
 
+/**
+ * Representamos intervalos cerrados de numeros reales a traves de una
+ * estructura compuesta por dos doubles donde el primero representa el extremo
+ * izquierdo, y el segundo el extremo derecho del intervalo.
+ * Decidimos que el tipo de dato al que llamamos Intervalo, no sea un apuntador
+ * a la estructura _Intervalo puesto que este a diferencia de las demas tipos de
+ * datos declarados como GNodo, no se autoreferencian.
+ */
 typedef struct _Intervalo {
   double extIzq;
   double extDer;
 } Intervalo;
 
-/*
- * Crea un intervalo.
+/**
+ * Dados dos doubles.
+ * Devuelve un intervalo que tiene como extremo izquierdo al primero de estos e
+ * intervalo derecho al segundo.
  */
-Intervalo intervalo_crear ();
+Intervalo intervalo_crear (double, double);
 
 /**
- *  Dados dos intervalos, los compara y determina su relacion.
- *  devuelve: 1 si el primero es estrictamente mayor al segundo.
- *            -1 si es menor.
- *            0 si es igual.
- *  Explicar contexto.
+ * Criterio de comparacion para intervalos utilizado en arboles de intervalos.
+ * Dados dos intervalos devuelve:
+ *      1 si el extremo izq del primero es mayor al del segundo.
+ *      -1 si el extremo izq del primero es menor al del segundo
+ *      Si sus extremos izq son iguales entonces:
+ *          1 si el extremo der del primero es mayor al del segundo.
+ *          -1 si el extremo der del primero es menor al del segundo.
+ *          0 si sus extremos derechos tambien son iguales.
  */
 int intervalo_comparacion (Intervalo, Intervalo);
 
 
 /**
- * Dadoo un intervalo, lo imprime formateado de la siguiente forma:
- * "[a,b] ".
+ * Dado un intervalo, lo imprime formateado "[a,b]".
+ * Ademas se imprime como %g lo que ayuda a la legibilidad.
  */
-void intervalo_imprimir (Intervalo intervalo);
+void intervalo_imprimir (Intervalo);
 
 /**
  * Dado dos intervalos, determina si se intersecan.
@@ -34,7 +51,13 @@ void intervalo_imprimir (Intervalo intervalo);
  */
 int intervalo_interseccion (Intervalo, Intervalo);
 
-int intervalo_validar (Intervalo intervalo);
+
+/**
+ * Dado un intervalo.
+ * Devuelve: 1 si tiene sentido.
+ *           0 si no lo tiene. (Por ejemplo que el extremo izq sea < al der).
+ */
+int intervalo_validar (Intervalo);
 
 
 #endif

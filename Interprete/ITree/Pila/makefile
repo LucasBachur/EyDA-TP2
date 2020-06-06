@@ -1,6 +1,6 @@
 flags = -Wall -Werror -Wextra -g -c
 
-pila = pilaG
+pila = pila
 pruebaPila = pruebaPila
 
 all: pilaG.o pruebaPila.o

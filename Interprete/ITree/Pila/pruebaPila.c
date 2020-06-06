@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "pilaG.h"
+#include "pila.h"
 
 void imprimir_int (void *dato){
   printf ("%d ", (*(int*)dato));

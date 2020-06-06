@@ -4,7 +4,7 @@ ITree = ITree
 pruebaITree = pruebaITree
 cola = Cola/cola
 intervalos = Intervalos/intervalos
-pila = Pila/pilaG
+pila = Pila/pila
 
 all: ITree.o pruebaITree.o
 
