@@ -108,7 +108,6 @@ void interprete (){
           printf ("Si, ");
           intervalo_imprimir (resultado->intervalo);
           printf("\n");
-          itree_destruir (resultado);
         }
         break;
       case 'd':
