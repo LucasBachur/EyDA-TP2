@@ -48,6 +48,16 @@ int validar_argumento (char *entrada);
 int main (){
   printf ("Buenas, bienvenido al interprete!\n");
 
+  /*char entrada[100];
+  strcpy(entrada, " ");
+
+  while(strcmp (entrada, "salir")!=0){
+    fgets (entrada, sizeof(entrada), stdin);
+    entrada[strlen(entrada)-1]='\0';
+    //scanf("%[^\n]\n",entrada);
+    printf("Ingresaste:%s\n",entrada);
+  }*/
+
   interprete ();
 
   return 0;
@@ -92,9 +102,8 @@ void interprete (){
 
   while (accion != 's'){
     fgets (buffer, sizeof(buffer), stdin);
-    // printf ("\nQUE SE ESCANEO: %s\n", buffer);
+    buffer[strlen(buffer)-1]='\0';
     accion = validar_entrada (buffer, &intervaloEjemplo);
-    printf ("accion:|%c|\n\n", accion);
     switch (accion) {
       case 'i':
         itree_insertar (&arbolEjemplo, intervaloEjemplo);
