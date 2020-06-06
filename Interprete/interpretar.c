@@ -68,7 +68,7 @@ char validar_entrada (char* entrada, Intervalo* intervalo){
   else if ((entrada[0] == 'i' || entrada[0] == 'e' || entrada[0] == '?') && entrada[1] == ' ' && entrada[2] == '['){
     if (validar_argumento (entrada)){
       sscanf (entrada + 3, "%lf,%lf]", &(intervalo->extIzq), &(intervalo->extDer));
-      if (validar_intervalo (*intervalo))
+      if (intervalo_validar (*intervalo))
         accion = entrada[0];
       else
         printf ("Intervalo invalido: El extremo izquierdo es mayor que el derecho\n");
@@ -76,7 +76,7 @@ char validar_entrada (char* entrada, Intervalo* intervalo){
   }
   else {
     printf ("Comando totalmente invalido.\n");
-    printf ("Los comandos validos son:\ni [x,y]\ne [x,y]\n? [x,y]\nbfs\ndfs\n");
+    printf ("Los comandos validos son:\ni [x,y]\ne [x,y]\n? [x,y]\nbfs\ndfs\nsalir\n");
     printf ("Ingrese un nuevo comando\n");
   }
 
@@ -86,13 +86,15 @@ char validar_entrada (char* entrada, Intervalo* intervalo){
 void interprete (){
   ITree arbolEjemplo = itree_crear ();
   Intervalo intervaloEjemplo;
-  char buffer[80], barra;
+  char buffer[80];
   char accion = ' ';
   ITree resultado;
 
   while (accion != 's'){
-    scanf ("%[^\n]%c", buffer, &barra);
+    fgets (buffer, sizeof(buffer), stdin);
+    // printf ("\nQUE SE ESCANEO: %s\n", buffer);
     accion = validar_entrada (buffer, &intervaloEjemplo);
+    printf ("accion:|%c|\n\n", accion);
     switch (accion) {
       case 'i':
         itree_insertar (&arbolEjemplo, intervaloEjemplo);

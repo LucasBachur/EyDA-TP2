@@ -34,7 +34,7 @@ void intervalo_imprimir (Intervalo intervalo);
  */
 int intervalo_interseccion (Intervalo, Intervalo);
 
-int validar_intervalo (Intervalo intervalo);
+int intervalo_validar (Intervalo intervalo);
 
 
 #endif
