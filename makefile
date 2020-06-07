@@ -8,13 +8,16 @@ cola = Interprete/ITree/Cola/cola
 pruebaCola = Interprete/ITree/Cola/pruebaCola
 intervalos = Interprete/ITree/Intervalos/intervalos
 interpretar = Interprete/interpretar
+interprete = Interprete/interprete
 
-all: puntoO pruebas
+
 
 interprete: puntoO
-	gcc -o interprete.out $(pila).o $(cola).o $(ITree).o $(intervalos).o $(interpretar).o
+	gcc -o interprete.out $(pila).o $(cola).o $(ITree).o $(intervalos).o $(interprete).o $(interpretar).o
 
-puntoO: colas.o pilas.o intervalos.o ITrees.o interpretar.o
+all: interprete pruebas
+
+puntoO: colas.o pilas.o intervalos.o ITrees.o interprete.o
 
 pruebas: pruebaCola pruebaPila pruebaITree
 
@@ -39,7 +42,7 @@ intervalos.o:
 ITrees.o:
 	$(MAKE) -C Interprete/ITree
 
-interpretar.o:
+interprete.o:
 	$(MAKE) -C Interprete
 
 cleanWin:

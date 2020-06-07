@@ -62,6 +62,21 @@ int itree_altura(ITree arbol);
 int itree_factor_balance (ITree arbol);
 
 /**
+ * Toma un apuntador a un arbol.
+ * Calcula la altura de ese subarbol y lo guarda en el parametro
+ * altura del nodo raiz del subarbol que se tomo como parametro.
+ */
+void itree_actualizar_altura (ITree *arbol);
+
+/**
+ * Toma un apuntador a un arbol.
+ * Calcula el maximo extremo derecho de intervalo para ese subarbol
+ * y lo guarda en el parametro maxExtDer del nodo raiz del subarbol que se
+ * tomo como parametro.
+ */
+void itree_mayor_extDer (ITree *arbol);
+
+/**
  * Dado un arbol, obtiene su factor de balance y de ser nesecario lo balancea
  * aplicando las rotaciones correspondientes y actualizando sus campos de altura
  * y maxExtDer.
@@ -84,7 +99,6 @@ ITree itree_rotacion_der (ITree arbol);
  * Devuelve el arbol luego de la rotacion.
  */
 ITree itree_rotacion_izq (ITree arbol);
-
 
 /**
  *  Toma un arbol y un intervalo.
@@ -111,13 +125,13 @@ void itree_eliminar_dato (ITree *arbol, Intervalo);
  */
 Intervalo itree_eliminar_minimo (ITree *arbol);
 
-
 /**
- * Toma un arbol una funcion visitante.
- * Recorre el arbol en profundidad y aplica la funcion visitante a cada nodo
- * del arbol.
+ * Toma un arbol y un intervalo.
+ * Busca si dentro del arbol hay por lo menos un intervalo que interseque con
+ * el intervalo parametro. En caso de ser asi devuelve un subarbol cuyo primer
+ * nodo interseca con el intervalo parametro. En caso contrario devuelve NULL.
  */
-void itree_recorrer_dfs (ITree arbol, FuncionQueVisita visit);
+ITree itree_intersecar (ITree, Intervalo);
 
 /**
  * Toma un arbol una funcion visitante.
@@ -127,32 +141,11 @@ void itree_recorrer_dfs (ITree arbol, FuncionQueVisita visit);
 void itree_recorrer_bfs (ITree arbol, FuncionQueVisita visit);
 
 /**
- * Toma un apuntador a un arbol.
- * Calcula el maximo extremo derecho de intervalo para ese subarbol
- * y lo guarda en el parametro maxExtDer del nodo raiz del subarbol que se
- * tomo como parametro.
- */ 
-void itree_mayor_extDer (ITree *arbol);
-
-/**
- * Toma un apuntador a un arbol.
- * Calcula la altura de ese subarbol y lo guarda en el parametro
- * altura del nodo raiz del subarbol que se tomo como parametro.
+ * Toma un arbol una funcion visitante.
+ * Recorre el arbol en profundidad y aplica la funcion visitante a cada nodo
+ * del arbol.
  */
-void itree_actualizar_altura (ITree *arbol);
-
-/**
- * Toma un arbol y libera todos sus nodos.
- */
-void itree_destruir (ITree raiz);
-
-/**
- * Toma un arbol y un intervalo.
- * Busca si dentro del arbol hay por lo menos un intervalo que interseque con
- * el intervalo parametro. En caso de ser asi devuelve un subarbol cuyo primer
- * nodo interseca con el intervalo parametro. En caso contrario devuelve NULL.
- */
-ITree itree_intersecar (ITree, Intervalo);
+void itree_recorrer_dfs (ITree arbol, FuncionQueVisita visit);
 
 /**
  * Definimos estas 2 funciones para imprimir el arbol de una forma legible
@@ -165,5 +158,10 @@ ITree itree_intersecar (ITree, Intervalo);
 void print2D(ITree arbol);
 
 void print2DUtil(ITree arbol, int space);
+
+/**
+ * Toma un arbol y libera todos sus nodos.
+ */
+void itree_destruir (ITree raiz);
 
 #endif
