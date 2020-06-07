@@ -155,60 +155,102 @@ void itree_insertar (ITree *arbol, Intervalo nIntervalo){
 
 
 void itree_eliminar_dato (ITree *arbol, Intervalo datoQueEliminar){
+  // Si se quiere eliminar un intervalo de un arbol vacio no se realizan mas
+  // acciones.
   if ((*arbol) != NULL){
-    ITree nodoLiberar = NULL;
-    int comparacion = intervalo_comparacion (datoQueEliminar, (*arbol)->intervalo);
 
+    int comparacion = intervalo_comparacion (datoQueEliminar, 
+      (*arbol)->intervalo);
+
+    // Si la funcion de comparacion devuelve 0 es porque el intervalo que se
+    // busca esta en este nodo.
     if (comparacion == 0){
-      // Caso 1
+      // Creamos un arbol auxiliar para liberar el nodo que vamos a eliminar
+      // una vez que ya no este en el arbol.
+      ITree nodoLiberar = NULL;
+
+      // Si el nodo actual es una hoja, se libera y se le asigna el valor
+      // de un arbol vacio.
       if ((*arbol)->left == NULL && (*arbol)->right == NULL){
         free((*arbol));
-        *arbol = NULL;
+        *arbol = itree_crear();
       }
-      // Caso 2.1
+      // Sabiendo que al menos uno de los hijos no es un arbol vacio,
+      // se procede a analizar los casos restantes.
+
+      // Si el hijo izquierdo es vacio, cambiamos el valor del nodo por el
+      // hijo derecho y liberamos el nodo eliminado.
       else if ((*arbol)->left == NULL){
         nodoLiberar = *arbol;
         *arbol = (*arbol)->right;
         free(nodoLiberar);
         nodoLiberar = NULL;
       }
-      // Caso 2.2
+
+      // Si el hijo izquierdo es vacio, cambiamos el valor del nodo por el
+      // hijo derecho y liberamos el nodo eliminado.
       else if ((*arbol)->right == NULL){
         nodoLiberar = *arbol;
         *arbol = (*arbol)->left;
         free(nodoLiberar);
         nodoLiberar = NULL;
       }
-      // Caso 3
-      else{
+
+      // Si ninguno de los hijos es nulo, se elimina el minimo valor del hijo
+      // derecho y se asigna el intervalo que se encontraba en el nodo
+      // eliminado al nodo actual.
+      else
         (*arbol)->intervalo = itree_eliminar_minimo(&((*arbol)->right));
-      }
     }
+
+    // Si la funcion de comparacion no devuelve 0 es porque hay que seguir
+    // buscando en el arbol el nodo a eliminar.
     else{
-      // Buscar a la izq.
-      if (comparacion < 0) {
+
+      // Si la funcion de comparacion devuelve menor a 0 es porque el intervalo
+      // a eliminar es menor que el intervalo del nodo actual. Asi que se 
+      // realiza la recursion sobre el hijo izquierdo.
+      if (comparacion < 0)
         itree_eliminar_dato (&((*arbol)->left), datoQueEliminar);
-      }
-      // Buscar a la der.
-      else {
+
+      // En caso contrario, el intervalo a eliminar es mayor que el intervalo
+      // del nodo actual. Asi que se realiza la recursion sobre el hijo 
+      // derecho.
+      else 
         itree_eliminar_dato (&((*arbol)->right), datoQueEliminar);
-      }
-      // Actualizar arbol luego de que se haya eliminado.
+
+      // Luego de eliminar el nodo, se actualizan los valores de maxExtDer
+      // y de altura del nodo.
       itree_mayor_extDer (arbol);
       itree_actualizar_altura(arbol);
+
+      // Por ultimo se balancea el arbol.
       *arbol = itree_balancear (*arbol);
     }
   }
 }
 
 Intervalo itree_eliminar_minimo (ITree *arbol){
+  // Por el contexto en el que se llama a la funcion el arbol nunca puede
+  // ser nulo.
+
   Intervalo minimo;
+
+  // Si el hijo izquierdo del nodo es nulo, entonces este es el nodo que
+  // contiene al minimo intervalo del arbol.
   if ((*arbol)->left == NULL){
+    // Guardamos el intervalo del nodo actual para devolverlo.
     minimo = (*arbol)->intervalo;
-    itree_eliminar_dato(arbol, (*arbol)->intervalo);
+    // Eliminamos este nodo del arbol actual.
+    itree_eliminar_dato(arbol, minimo);
   }
   else{
+    // En caso de no estar en el nodo con el minimo intervalo aun, se sigue
+    // recorriendo el arbol hacia la izquierda hasta encontrarlo.
     minimo = itree_eliminar_minimo(&((*arbol)->left));
+
+    // Luego de eliminar el nodo, se actualizan los valores de maxExtDer
+    // y de altura del nodo.
     itree_mayor_extDer (arbol);
     itree_actualizar_altura(arbol);
   }
@@ -216,41 +258,62 @@ Intervalo itree_eliminar_minimo (ITree *arbol){
 }
 
 void itree_destruir (ITree raiz){
+  // Si hay algo para destruir, lo destruimos.
   if (raiz != NULL){
+    // Destruimos los dos hijos del arbol.
     itree_destruir (raiz->left);
     itree_destruir (raiz->right);
+    // Liberamos el nodo actual.
     free (raiz);
   }
 }
 
 void itree_recorrer_bfs (ITree arbol, FuncionQueVisita visit){
+  // Si el arbol es vacio no hay nada que recorrer.
   if (arbol != NULL){
+    // Se crea la cola.
     Cola queue = cola_crear ();
+    // Se encola el nodo raiz.
     cola_encolar (&queue, arbol);
+    // Nodo auxiliar que se va a usar para moverse por el arbol.
     ITree nodo;
 
+    // Mientras queden elementos en la cola...
     while (!cola_es_vacia (queue)){
+      // Se guarda el primer elemento de la cola.
       nodo = cola_primero (queue);
+      // Se desencola ese elemento.
       cola_desencolar (&queue);
+      // Se aplica la funcion visitante al nodo actual.
       visit (nodo->intervalo);
-      if (nodo->right != NULL)
-        cola_encolar (&queue, nodo->right);
+      // Se encolan los hijos del nodo actual mientras no sean vacios.
       if (nodo->left != NULL)
         cola_encolar (&queue, nodo->left);
+      if (nodo->right != NULL)
+        cola_encolar (&queue, nodo->right);
     }
   }
 }
 
 void itree_recorrer_dfs (ITree arbol, FuncionQueVisita visit){
+  // Si el arbol es vacio no hay nada que recorrer.
   if (arbol != NULL){
+    // Se crea la pila.
     Pila stack = pila_crear ();
+    // Se apila el nodo raiz.
     pila_apilar (&stack, arbol);
+    // Nodo auxiliar que se va a usar para moverse por el arbol.
     ITree nodo;
 
+    // Minetras queden elementos en la pila...
     while (!pila_es_vacia (stack)){
+      // Se guarda el primer elemento de la pila.
       nodo = pila_ultimo (stack);
+      // Se desapila ese elemento.
       pila_desapilar (&stack);
+      // Se aplica la funcion visitante al nodo actual.
       visit (nodo->intervalo);
+      // Se apilan los hijos del nodo actual mientras no sean vacios.
       if (nodo->right != NULL)
         pila_apilar (&stack, nodo->right);
       if (nodo->left != NULL)
@@ -260,72 +323,104 @@ void itree_recorrer_dfs (ITree arbol, FuncionQueVisita visit){
 }
 
 void itree_mayor_extDer (ITree *arbol){
-  double maxExtDer;
+  // Siempre que el arbol no sea vacio...
+  if((*arbol) != NULL){
+    double maxExtDer;
 
-  if ((*arbol)->left == NULL && (*arbol)->right == NULL){
-    maxExtDer = ((*arbol)->intervalo.extDer);
-  }
-  else if ((*arbol)->left == NULL){
-    maxExtDer = max2 ((*arbol)->intervalo.extDer, (*arbol)->right->maxExtDer);
-  }
-  else if ((*arbol)->right == NULL){
-    maxExtDer = max2 ((*arbol)->intervalo.extDer, (*arbol)->left->maxExtDer);
-  }
-  else{
-    maxExtDer = max3 ((*arbol)->intervalo.extDer, (*arbol)->left->maxExtDer, (*arbol)->right->maxExtDer);
-  }
+    // Si es una hoja, maxExtDer va a ser igual al extremo derecho del intervalo
+    // del nodo actual.
+    if ((*arbol)->left == NULL && (*arbol)->right == NULL)
+      maxExtDer = ((*arbol)->intervalo.extDer);
+    
+    // Si el hijo izquierdo es vacio, maxExtDer va a ser igual al maximo entre
+    // el extremo derecho del nodo actual y el maxExtDer del hijo derecho.
+    else if ((*arbol)->left == NULL)
+      maxExtDer = max2 ((*arbol)->intervalo.extDer, (*arbol)->right->maxExtDer);
+    
+    // Si el hijo derecho es vacio, maxExtDer va a ser igual al maximo entre
+    // el extremo derecho del nodo actual y el maxExtDer del hijo izquierdo.
+    else if ((*arbol)->right == NULL)
+      maxExtDer = max2 ((*arbol)->intervalo.extDer, (*arbol)->left->maxExtDer);
+    
+    // Si ambos hijos son no vacios, maxExtDer va a ser igual al maximo entre
+    // el extremo derecho del nodo actual, el maxExtDer del hijo izquierdo y
+    // el maxExtDer del hijo derecho.
+    else
+      maxExtDer = max3 ((*arbol)->intervalo.extDer, (*arbol)->left->maxExtDer, (*arbol)->right->maxExtDer);
 
-  (*arbol)->maxExtDer = maxExtDer;
+    // Una vez que se obtuvo el valor de maxExtDer, se le asigna al arbol actual.
+    (*arbol)->maxExtDer = maxExtDer;
+  }
 }
 
 void itree_actualizar_altura (ITree *arbol){
-  (*arbol)->altura = max2(itree_altura((*arbol)->left),itree_altura((*arbol)->right))+1;
+  // La altura del nodo actual va a ser el maximo entre la altura de los hijos
+  // mas 1.
+  (*arbol)->altura = max2 (itree_altura((*arbol)->left), 
+    itree_altura((*arbol)->right)) + 1;
 }
 
-ITree itree_intersecar (ITree arbol, Intervalo intervaloQueInterseca){
+ITree itree_intersecar (ITree arbol, Intervalo intervalo){
   ITree resultado = NULL;
+  // Si el arbol es vacio no hay interseccion con el intervalo parametro
+  // y se devuelve un arbol vacio.
   if (arbol != NULL){
-    if (intervalo_interseccion(arbol->intervalo, intervaloQueInterseca) == 1){
+
+    // Se pregunta si hay interseccion entre el intervalo del nodo actual y el
+    // intervalo parametro.
+    // De ser asi, delvolvemos el nodo actual.
+    if (intervalo_interseccion(arbol->intervalo, intervalo) == 1)
       resultado = arbol;
-    }
-    else if(arbol->left != NULL && intervaloQueInterseca.extIzq <= arbol->left->maxExtDer){
-      resultado = itree_intersecar (arbol->left, intervaloQueInterseca);
-    }
-    else {
-      resultado = itree_intersecar (arbol->right, intervaloQueInterseca);
-    }
+    
+    // En caso contrario, se hace la recursion sobre el arbol correspondiente.
+
+    // Si el hijo izquierdo no es vacio y el extremo izquierdo del intervalo
+    // parametro es menor o igual al maxExtDer del hijo izquierdo, entonces se
+    // realiza la recursion sobre el hijo izquierdo. Esto es porque si hay
+    // interseccion solo puede estar de ese lado.
+    else if(arbol->left != NULL && intervalo.extIzq <= arbol->left->maxExtDer)
+      resultado = itree_intersecar (arbol->left, intervalo);
+
+    // Si no se cumplen las condiciones anteriores, si hay interseccion
+    // solo puede estar del lado derecho. Por lo tanto se realiza la
+    // recursion sobre ese lado.
+    else
+      resultado = itree_intersecar (arbol->right, intervalo);
+
   }
   return resultado;
 }
 
-// Wrapper over print2DUtil()
 void print2D(ITree arbol){
-   // Pass initial space count as 0
+   // Se pasa el espacio inicial como 0.
    print2DUtil(arbol, 0);
 }
 
-void print2DUtil(ITree arbol, int space){
-    // Base case
+void print2DUtil(ITree arbol, int espacio){
+    // Caso base.
     if (arbol == NULL)
         return;
 
-    // Increase distance between levels
-    space += COUNT;
+    // Se incrementa el espacio entre niveles.
+    espacio += COUNT;
 
-    // Process right child first
-    print2DUtil(arbol->right, space);
+    // Se procesa el hijo derecho primero.
+    print2DUtil(arbol->right, espacio);
 
-    // Print current node after space
-    // count
+    // Se imprime el nodo actual luego de la cantidad de espacios que 
+    // corresponden.
     printf("\n");
-    for (int i = COUNT; i < space; i++)
+    for (int i = COUNT; i < espacio; ++i)
         printf(" ");
     intervalo_imprimir (arbol->intervalo);
-    printf("\n");
-    for (int i = COUNT; i < space; i++)
-        printf(" ");
-    printf(" %0.1f", arbol->maxExtDer);
 
-    // Process left child
-    print2DUtil(arbol->left, space);
+    // Luego, se imprime el maximo extremo derecho del arbol despues de la
+    // cantidad de espacios que corresponden.
+    printf("\n");
+    for (int i = COUNT; i < espacio; ++i)
+        printf(" ");
+    printf(" %g", arbol->maxExtDer);
+
+    // Se procesa el hijo izquierdo.
+    print2DUtil(arbol->left, espacio);
 }
