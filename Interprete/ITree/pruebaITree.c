@@ -20,9 +20,9 @@ int main() {
   print2D (arbolEjemplo);
   itree_insertar (&arbolEjemplo, datosPrueba[0]);*/
 
-  printf ("IMPRIMIENDO ARBOL  chad OWO!\n\n");
+  /*printf ("IMPRIMIENDO ARBOL  chad OWO!\n\n");
   print2D (arbolEjemplo);
-  printf("\n");
+  printf("\n");*/
 
   /*printf ("\n\nImprimiendo arbol con dfs pre-order!\n\n");
   itree_recorrer_dfs (arbolEjemplo, intervalo_imprimir);*/
@@ -57,6 +57,12 @@ int main() {
   print2D (arbolEjemplo);
 
   printf("\n");
+
+  printf ("\n\nImprimiendo arbol con dfs pre-order!\n\n");
+  itree_recorrer_dfs (arbolEjemplo, intervalo_imprimir);
+
+  /*printf ("\n\nImprimiendo arbol bfs!\n\n");
+  itree_recorrer_bfs (arbolEjemplo, intervalo_imprimir);*/
 
   //printf("%d\n",itree_altura(arbolEjemplo));
 

@@ -85,4 +85,13 @@ int validar_numero (char entrada);
  */
 int validar_espacio (char* entrada, int i);
 
+/**
+ * Dado un apuntador a caracteres, y un entero.
+ * Determina si la e (lugar donde apunta entrada) colocada es valido,
+ * teniendo en cuenta su ubicacion y contexto, devolviendo:
+ *  1 si lo es.
+ *  0 si no lo es.
+ */
+int validar_exp (char* entrada, int bandera, int i);
+
 #endif

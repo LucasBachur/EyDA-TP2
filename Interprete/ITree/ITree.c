@@ -346,9 +346,9 @@ void itree_recorrer_bfs (ITree arbol, FuncionQueVisita visit){
       // Se aplica la funcion visitante al nodo actual.
       visit (nodo->intervalo);
       // Se encolan los hijos del nodo actual mientras no sean vacios.
-      if (!itree_es_vacio(arbol->left))
+      if (!itree_es_vacio(nodo->left))
         cola_encolar (&queue, nodo->left);
-      if (!itree_es_vacio(arbol->right))
+      if (!itree_es_vacio(nodo->right))
         cola_encolar (&queue, nodo->right);
     }
   }
@@ -373,9 +373,9 @@ void itree_recorrer_dfs (ITree arbol, FuncionQueVisita visit){
       // Se aplica la funcion visitante al nodo actual.
       visit (nodo->intervalo);
       // Se apilan los hijos del nodo actual mientras no sean vacios.
-      if (!itree_es_vacio(arbol->right))
+      if (!itree_es_vacio(nodo->right))
         pila_apilar (&stack, nodo->right);
-      if (!itree_es_vacio(arbol->left))
+      if (!itree_es_vacio(nodo->left))
         pila_apilar (&stack, nodo->left);
     }
   }

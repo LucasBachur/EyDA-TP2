@@ -42,9 +42,11 @@ void interprete (){
         }
         break;
       case 'd':
+        printf(" ");
         itree_recorrer_dfs (arbolEjemplo, intervalo_imprimir); printf("\n");
         break;
       case 'b':
+        printf(" ");
         itree_recorrer_bfs (arbolEjemplo, intervalo_imprimir); printf("\n");
         break;
       case 's':
@@ -95,12 +97,13 @@ char validar_entrada (char* entrada, Intervalo* intervalo){
 int validar_argumento (char *entrada){
   int validez = 0;
   // Declarando banderas.
-  int coma = 0;     //bandera que indica si se coloco o no una coma.
-  int punto = 0;    //bandera que indica si se coloco o no un punto.
-  int basura = 0;   //caracteres no desesados dentro del intervalo.
-  int espacioM = 0; //espacio mal colocado.
-  int menos = 0;    //bandera que indica si se coloco o no un signo menos.
-  int i = 3;        //contador luego del '[' en la entrada.
+  int coma = 0;     // bandera que indica si se coloco o no una coma
+  int punto = 0;    // bandera que indica si se coloco o no un punto
+  int basura = 0;   // caracteres no desesados dentro del intervalo
+  int espacioM = 0; // espacio mal colocado.
+  int menos = 0;    // bandera que indica si se coloco o no un signo menos
+  int exp = 0;      // bandera que indica si hay una e mal colocada
+  int i = 3;        // contador luego del '[' en la entrada
 
 
   for (; entrada[i] != ']' && entrada[i] != '\0' && !basura && !espacioM; ++i){
@@ -111,6 +114,7 @@ int validar_argumento (char *entrada){
       coma = 1;
       punto = 0;
       menos = 0;
+      exp = 0;
     }
 
     // Si se ingreso un signo menos y es valido. Se modifica la bandera de signo
@@ -130,6 +134,9 @@ int validar_argumento (char *entrada){
     else if (entrada[i] == ' ' && !validar_espacio (entrada, i))
       espacioM = 1;
 
+    else if (entrada[i] == 'e' && validar_exp (entrada, exp, i))
+      exp = 1;
+
     // Si se ingreso algo diferente a un espacio o numero (distinguimos el caso
     // de espacio en blanco para identificarlo como un error particular).
     // Se modifica la bandera de basura indicando que se ingreso basura en el
@@ -137,14 +144,13 @@ int validar_argumento (char *entrada){
     else if (entrada[i] != ' ' && !validar_numero (entrada[i]))
       basura = 1;
   }
-
   // Si se salio del bucle por los siguientes motivos, significa que hubo
   // algun error.
   if (basura == 1)
     printf ("Basura en el argumento.\n");
   else if (espacioM)
     printf("Hay AL MENOS un espacio mal ubicado.\n");
-  else if  (coma == 0)
+  else if (coma == 0)
     printf ("El intervalo esta incompleto.\n");
   else if (entrada[i] == '\0')
     printf ("Todo intervalo debe finalizar con un ].\n");
@@ -162,7 +168,7 @@ int validar_coma (char *entrada, int bandera, int i){
   // Si no se coloco ninguna coma en la entrada aun, el anterior
   // a la coma es un numero y el siguiente es un numero o un espacio, se dice
   // que es una coma valida.
-  return bandera == 0 && validar_numero (entrada[i-1]) &&
+  return !bandera && validar_numero (entrada[i-1]) &&
     (validar_numero (entrada[i+1]) || entrada[i + 1] == ' ');
 }
 
@@ -170,25 +176,31 @@ int validar_sign_menos (char *entrada, int bandera, int i){
   // Si no se coloco ningun signo menos para este numero, el anterior es un '['
   // (caso extremo izquierdo intervalo), o un ' ' (caso ", -x"), o una ',' (caso
   // ",-x"), se dice que es un signo menos valido.
-  return bandera == 0 && (entrada[i-1] == ' ' || entrada[i-1] == '[' ||
-    entrada[i-1] == ',');
+  return !bandera && (entrada[i-1] == ' ' || entrada[i-1] == '[' ||
+    entrada[i-1] == ',' || entrada[i-1] == 'e');
 }
 
 int validar_punto (char *entrada, int bandera, int i){
   // Si no se coloco ningun punto para este numero, el anterior es un numero y
   // el siguiente tambien, se dice que es un punto valido.
-  return bandera == 0 && validar_numero (entrada[i-1]) &&
+  return !bandera && validar_numero (entrada[i-1]) &&
     validar_numero (entrada[i+1]);
 }
 
 int validar_numero (char entrada){
   // Si el valor ascii del caracter esta entre 0 y 9 incluidos, se trata de un
   // numero.
-  return (entrada >= '0' || entrada <= '9');
+  return (entrada >= '0' && entrada <= '9');
 }
 
 int validar_espacio (char* entrada, int i){
   // Si el espacio esta entre una coma y un numero se dice que es valido.
   // Es el unico espacio valido dentro del argumento.
   return (entrada[i-1] == ',' && validar_numero (entrada[i + 1]));
+}
+
+int validar_exp (char* entrada, int bandera, int i){
+  // Si la e esta entre un numero y un numero o un menos se dice que es valido.
+  return (bandera == 0 && validar_numero (entrada[i - 1]) &&
+   (validar_numero (entrada[i + 1]) || entrada[i + 1] == '-'));
 }
