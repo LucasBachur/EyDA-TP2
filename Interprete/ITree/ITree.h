@@ -46,6 +46,11 @@ typedef ITreeNodo *ITree;
 ITree itree_crear ();
 
 /**
+ *  Toma un arbol y devuelve 1 si es vacio y 0 en caso contrario.
+ */
+int itree_es_vacio (ITree); 
+
+/**
  * Dado un arbol.
  * Devuelve la altura del mismo.
  * Aunque en la declaracion del tipo de dato de arboles agregamos un campo

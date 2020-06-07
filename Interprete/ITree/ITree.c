@@ -10,11 +10,15 @@ ITree itree_crear (){
   return NULL;
 }
 
+int itree_es_vacio (ITree arbol){
+  return arbol == NULL;
+} 
+
 int itree_altura(ITree arbol){
   // Se define la altura de un arbol vacio como -1.
   int altura = -1;
 
-  if(arbol != NULL)
+  if(!itree_es_vacio(arbol))
     altura = arbol->altura;
 
   return altura;
@@ -22,7 +26,7 @@ int itree_altura(ITree arbol){
 
 int itree_factor_balance (ITree arbol){
   int factorBalance = 0;
-  if (arbol != NULL)
+  if (!itree_es_vacio(arbol))
    factorBalance = itree_altura(arbol->left) - itree_altura(arbol->right);
   return factorBalance;
 }
@@ -36,7 +40,7 @@ void itree_actualizar_altura (ITree *arbol){
 
 void itree_mayor_extDer (ITree *arbol){
   // Siempre que el arbol no sea vacio...
-  if((*arbol) != NULL){
+  if(!itree_es_vacio(*arbol)){
     double maxExtDer;
 
     // Si es una hoja, maxExtDer va a ser igual al extremo derecho del intervalo
@@ -150,7 +154,7 @@ ITree itree_rotacion_izq (ITree arbol){
 void itree_insertar (ITree *arbol, Intervalo nIntervalo){
   // Si se quiere insertar sobre un arbol que es NULL entonces se genera un
   // nuevo subarbol y se asigna al arbol actual.
-  if (*arbol == NULL){
+  if (itree_es_vacio(*arbol)){
     ITree nuevoSubarbol = malloc (sizeof (ITreeNodo));
     nuevoSubarbol->intervalo = nIntervalo;
     nuevoSubarbol->maxExtDer = nIntervalo.extDer;
@@ -192,7 +196,7 @@ void itree_insertar (ITree *arbol, Intervalo nIntervalo){
 void itree_eliminar_dato (ITree *arbol, Intervalo datoQueEliminar){
   // Si se quiere eliminar un intervalo de un arbol vacio no se realizan mas
   // acciones.
-  if ((*arbol) != NULL){
+  if (!itree_es_vacio(*arbol)){
 
     int comparacion = intervalo_comparacion (datoQueEliminar,
       (*arbol)->intervalo);
@@ -273,7 +277,7 @@ Intervalo itree_eliminar_minimo (ITree *arbol){
 
   // Si el hijo izquierdo del nodo es nulo, entonces este es el nodo que
   // contiene al minimo intervalo del arbol.
-  if ((*arbol)->left == NULL){
+  if (itree_es_vacio((*arbol)->left)){
     // Guardamos el intervalo del nodo actual para devolverlo.
     minimo = (*arbol)->intervalo;
     // Eliminamos este nodo del arbol actual.
@@ -296,7 +300,7 @@ ITree itree_intersecar (ITree arbol, Intervalo intervalo){
   ITree resultado = NULL;
   // Si el arbol es vacio no hay interseccion con el intervalo parametro
   // y se devuelve un arbol vacio.
-  if (arbol != NULL){
+  if (!itree_es_vacio(arbol)){
 
     // Se pregunta si hay interseccion entre el intervalo del nodo actual y el
     // intervalo parametro.
@@ -325,7 +329,7 @@ ITree itree_intersecar (ITree arbol, Intervalo intervalo){
 
 void itree_recorrer_bfs (ITree arbol, FuncionQueVisita visit){
   // Si el arbol es vacio no hay nada que recorrer.
-  if (arbol != NULL){
+  if (!itree_es_vacio(arbol)){
     // Se crea la cola.
     Cola queue = cola_crear ();
     // Se encola el nodo raiz.
@@ -352,7 +356,7 @@ void itree_recorrer_bfs (ITree arbol, FuncionQueVisita visit){
 
 void itree_recorrer_dfs (ITree arbol, FuncionQueVisita visit){
   // Si el arbol es vacio no hay nada que recorrer.
-  if (arbol != NULL){
+  if (!itree_es_vacio(arbol)){
     // Se crea la pila.
     Pila stack = pila_crear ();
     // Se apila el nodo raiz.
@@ -384,7 +388,7 @@ void print2D(ITree arbol){
 
 void print2DUtil(ITree arbol, int espacio){
     // Caso base.
-    if (arbol == NULL)
+    if (itree_es_vacio(arbol))
         return;
 
     // Se incrementa el espacio entre niveles.
@@ -413,7 +417,7 @@ void print2DUtil(ITree arbol, int espacio){
 
 void itree_destruir (ITree raiz){
   // Si hay algo para destruir, lo destruimos.
-  if (raiz != NULL){
+  if (!itree_es_vacio(raiz)){
     // Destruimos los dos hijos del arbol.
     itree_destruir (raiz->left);
     itree_destruir (raiz->right);
