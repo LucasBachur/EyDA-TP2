@@ -1,12 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "ITree/ITree.h"
-#include "ITree/Intervalos/intervalos.h"
+#include "ITree/ITree.h" // Dentro de ITree.h se incluye Intervalos.h
 
 
 /**
- * Dada un arbol.
+ * Crea un arbol y un intervalo.
  * Recurre sobre si misma, escaneando la consola y si la entrada es valida,
  * realiza:
  * "i [a,b]" ==> inserta el intervalo [a,b] en el arbol.
@@ -46,17 +45,8 @@ int validar_argumento (char *entrada);
 
 
 int main (){
+
   printf ("Buenas, bienvenido al interprete!\n");
-
-  /*char entrada[100];
-  strcpy(entrada, " ");
-
-  while(strcmp (entrada, "salir")!=0){
-    fgets (entrada, sizeof(entrada), stdin);
-    entrada[strlen(entrada)-1]='\0';
-    //scanf("%[^\n]\n",entrada);
-    printf("Ingresaste:%s\n",entrada);
-  }*/
 
   interprete ();
 
@@ -75,18 +65,22 @@ char validar_entrada (char* entrada, Intervalo* intervalo){
   else if (!strcmp (entrada, "salir")){
     accion = 's';
   }
-  else if ((entrada[0] == 'i' || entrada[0] == 'e' || entrada[0] == '?') && entrada[1] == ' ' && entrada[2] == '['){
+  else if ((entrada[0] == 'i' || entrada[0] == 'e' || entrada[0] == '?') &&
+   entrada[1] == ' ' && entrada[2] == '['){
     if (validar_argumento (entrada)){
-      sscanf (entrada + 3, "%lf,%lf]", &(intervalo->extIzq), &(intervalo->extDer));
+      sscanf (entrada + 3, "%lf,%lf]", &(intervalo->extIzq),
+       &(intervalo->extDer));
       if (intervalo_validar (*intervalo))
         accion = entrada[0];
       else
-        printf ("Intervalo invalido: El extremo izquierdo es mayor que el derecho\n");
+        printf("Intervalo invalido:");
+        printf(" El extremo izquierdo es mayor que el derecho\n");
     }
   }
   else {
     printf ("Comando totalmente invalido.\n");
-    printf ("Los comandos validos son:\ni [x,y]\ne [x,y]\n? [x,y]\nbfs\ndfs\nsalir\n");
+    printf ("Los comandos validos son:\ni [x,y]\ne [x,y]\n");
+    printf ("? [x,y]\nbfs\ndfs\nsalir\n");
     printf ("Ingrese un nuevo comando\n");
   }
 
@@ -94,15 +88,23 @@ char validar_entrada (char* entrada, Intervalo* intervalo){
 }
 
 void interprete (){
+  // Se crea un arbol.
   ITree arbolEjemplo = itree_crear ();
+  // Se crea el intervalo auxiliar.
   Intervalo intervaloEjemplo;
   char buffer[80];
   char accion = ' ';
+  // Se crea el arbol auxiliar que se va a usar solo en caso de tener que 
+  // intersecar.
   ITree resultado;
 
   while (accion != 's'){
+    // Se lee una linea a traves de la entrada estandar.
     fgets (buffer, sizeof(buffer), stdin);
+    // Se recorta el ultimo caracter del buffer (ya que este es '\n').
     buffer[strlen(buffer)-1]='\0';
+    // Se valida la entrada, se guarda la accion que se va a realizar y se
+    // modifica el intervalo de ser necesario para esa accion.
     accion = validar_entrada (buffer, &intervaloEjemplo);
     switch (accion) {
       case 'i':
