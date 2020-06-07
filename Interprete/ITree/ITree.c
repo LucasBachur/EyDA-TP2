@@ -110,21 +110,30 @@ ITree itree_rotacion_izq (ITree arbol){
 }
 
 
-// FALTA COMENTAR
 void itree_insertar (ITree *arbol, Intervalo nIntervalo){
+  // Si se quiere insertar sobre un arbol que es NULL entonces se genera un
+  // nuevo subarbol y se asigna al arbol actual.
   if (*arbol == NULL){
     ITree nuevoSubarbol = malloc (sizeof (ITreeNodo));
     nuevoSubarbol->intervalo = nIntervalo;
     nuevoSubarbol->maxExtDer = nIntervalo.extDer;
-    nuevoSubarbol->altura = 0;
+    nuevoSubarbol->altura = 0; // La altura de un arbol con un solo nodo es 0.
     nuevoSubarbol->left = itree_crear ();
     nuevoSubarbol->right = itree_crear ();
     *arbol = nuevoSubarbol;
   }
   else {
+    // Sabiendo que el arbol no es vacio, se compara el intervalo que se quiere
+    // insertar con el intervalo contenido en el nodo actual para saber si 
+    // hay que hacer la recursion sobre el hijo izquierdo o el derecho.
+
     int comparacion = intervalo_comparacion (nIntervalo, (*arbol)->intervalo);
 
+    // Si ambos intervalos son iguales significa que el intervalo que se quiere
+    // ingresar ya se encuentra en el arbol y no hay que realizar mas acciones.
     if (comparacion != 0){
+      // Se realiza la recursion sobre el hijo izquierdo o el derecho segun 
+      // el valor que devolvio la funcion de comparacion.
       if (comparacion > 0){
         itree_insertar ((&(*arbol)->right), nIntervalo);
       }
@@ -132,9 +141,12 @@ void itree_insertar (ITree *arbol, Intervalo nIntervalo){
         itree_insertar ((&(*arbol)->left), nIntervalo);
       }
 
+      // Luego de insertar el intervalo, se actualizan los valores de maxExtDer
+      // y de altura del nodo.
       itree_mayor_extDer (arbol);
       itree_actualizar_altura(arbol);
 
+      // Por ultimo se balancea el arbol.
       *arbol = itree_balancear (*arbol);
     }
   }
