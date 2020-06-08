@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2020.5.2)  3 JUN 2020 10:03
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2020.5.2)  7 JUN 2020 17:38
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -690,8 +690,6 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 46.
 LaTeX Info: Redefining \pageref on input line 46.
 LaTeX Info: Redefining \nameref on input line 46.
-
-(./Informe.out) (./Informe.out)
 \@outlinefile=\write3
 \openout3 = `Informe.out'.
 
@@ -701,7 +699,7 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <20.74> on input line 52.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <17.28> on input line 52.
-<UNRlogo.png, id=48, 513.92pt x 429.605pt>
+<UNRlogo.png, id=4, 513.92pt x 429.605pt>
 File: UNRlogo.png Graphic file (type png)
 <use UNRlogo.png>
 Package pdftex.def Info: UNRlogo.png  used on input line 60.
@@ -730,10 +728,11 @@ Package babel Info: Redefining spanish shorthand "!
 (babel)             in language  on input line 68.
 Package babel Info: Redefining spanish shorthand "?
 (babel)             in language  on input line 68.
- [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./UNRlogo.png>] (./Informe
-.toc
+[1
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./UNRlogo.png>]
+(./Informe.toc
 LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
 LaTeX Font Info:    External font `cmex10' loaded for size
@@ -1053,8 +1052,6 @@ epstopdf-base.sty    2016/05/15 v2.6 Base part for package epstopdf
 epstopdf-sys.cfg    2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
  nameref.sty    2016/05/21 v2.44 Cross-referencing by name of section
 gettitlestring.sty    2016/05/16 v1.5 Cleanup title references (HO)
- Informe.out
- Informe.out
  UNRlogo.png    Graphic file (type png)
 lstlang1.sty    2015/06/04 1.6 listings language file
  lstmisc.sty    2015/06/04 1.6 (Carsten Heinz)
@@ -1062,8 +1059,14 @@ lstlang1.sty    2015/06/04 1.6 listings language file
  ***********
 
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 121.
-Package rerunfilecheck Info: File `Informe.out' has not changed.
-(rerunfilecheck)             Checksum: CDF50A3A5F6F7E330A98ECAEB3276CBE;618.
+
+Package rerunfilecheck Warning: File `Informe.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `Informe.out':
+(rerunfilecheck)             Before: <no file>
+(rerunfilecheck)             After:  CDF50A3A5F6F7E330A98ECAEB3276CBE;618.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 121.
  )
 (\end occurred inside a group at level 1)
@@ -1071,10 +1074,10 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 121.
 ### semi simple group (level 1) entered at line 113 (\begingroup)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 9208 strings out of 492982
- 129348 string characters out of 6134897
- 265486 words of memory out of 5000000
- 12658 multiletter control sequences out of 15000+600000
+ 9191 strings out of 492982
+ 129132 string characters out of 6134897
+ 265408 words of memory out of 5000000
+ 12645 multiletter control sequences out of 15000+600000
  9884 words of font info for 35 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  30i,5n,58p,722b,1421s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1089,10 +1092,10 @@ fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/
 type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
 amsfonts/cm/cmtt10.pfb>
-Output written on Informe.pdf (4 pages, 203454 bytes).
+Output written on Informe.pdf (4 pages, 202636 bytes).
 PDF statistics:
- 146 PDF objects out of 1000 (max. 8388607)
- 125 compressed objects within 2 object streams
+ 111 PDF objects out of 1000 (max. 8388607)
+ 91 compressed objects within 1 object stream
  27 named destinations out of 1000 (max. 500000)
- 94 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 6 words of extra memory for PDF output out of 10000 (max. 10000000)
 

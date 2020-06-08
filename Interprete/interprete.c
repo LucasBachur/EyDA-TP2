@@ -12,48 +12,55 @@ void interprete (){
   Intervalo intervaloEjemplo;
   char buffer[80];
   char accion = ' ';
+  int banderaScan = 1;
   // Se crea el arbol auxiliar que se va a usar solo en caso de tener que
   // intersecar.
   ITree resultado;
 
   while (accion != 's'){
     // Se lee una linea a traves de la entrada estandar.
-    fgets (buffer, sizeof(buffer), stdin);
-    // Se recorta el ultimo caracter del buffer (ya que este es '\n').
-    buffer[strlen(buffer)-1]='\0';
-    // Se valida la entrada, se guarda la accion que se va a realizar y se
-    // modifica el intervalo de ser necesario para esa accion.
-    accion = validar_entrada (buffer, &intervaloEjemplo);
-    switch (accion) {
-      case 'i':
-        itree_insertar (&arbolEjemplo, intervaloEjemplo);
-        break;
-      case 'e':
-        itree_eliminar_dato (&arbolEjemplo, intervaloEjemplo);
-        break;
-      case '?':
-        resultado = itree_intersecar (arbolEjemplo, intervaloEjemplo);
-        if (resultado == NULL)
-          printf ("No.\n");
-        else {
-          printf ("Si, ");
-          intervalo_imprimir (resultado->intervalo);
-          printf("\n");
-        }
-        break;
-      case 'd':
-        printf(" ");
-        itree_recorrer_dfs (arbolEjemplo, intervalo_imprimir); printf("\n");
-        break;
-      case 'b':
-        printf(" ");
-        itree_recorrer_bfs (arbolEjemplo, intervalo_imprimir); printf("\n");
-        break;
-      case 's':
-        printf ("Gracias por usar el interprete!\n");
-        break;
-      default:
-        break;
+    banderaScan = scanf ("%[^\n]", buffer);
+    // Se lee el \n de la linea. Tambien es de utilidad para el caso en el que
+    // se ingrese solo \n por consola.
+    getc (stdin);
+    if (banderaScan == 0)
+      printf ("Entrada invalida, ingrese algo.\n");
+    else{
+      
+      // Se valida la entrada, se guarda la accion que se va a realizar y se
+      // modifica el intervalo de ser necesario para esa accion.
+      accion = validar_entrada (buffer, &intervaloEjemplo);
+      switch (accion) {
+        case 'i':
+          itree_insertar (&arbolEjemplo, intervaloEjemplo);
+          break;
+        case 'e':
+          itree_eliminar_dato (&arbolEjemplo, intervaloEjemplo);
+          break;
+        case '?':
+          resultado = itree_intersecar (arbolEjemplo, intervaloEjemplo);
+          if (resultado == NULL)
+            printf ("No.\n");
+          else {
+            printf ("Si, ");
+            intervalo_imprimir (resultado->intervalo);
+            printf("\n");
+          }
+          break;
+        case 'd':
+          printf(" ");
+          itree_recorrer_dfs (arbolEjemplo, intervalo_imprimir); printf("\n");
+          break;
+        case 'b':
+          printf(" ");
+          itree_recorrer_bfs (arbolEjemplo, intervalo_imprimir); printf("\n");
+          break;
+        case 's':
+          printf ("Gracias por usar el interprete!\n");
+          break;
+        default:
+          break;
+      }
     }
   }
   itree_destruir(arbolEjemplo);
