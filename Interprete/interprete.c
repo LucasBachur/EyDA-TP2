@@ -5,12 +5,14 @@
 #include "interprete.h" // Dentro de interprete.h tambien, pero por los "ifndef"
                         // se usa la defincion de ITree.h y no hay problemas.
 
+#define BUFFER 80 //Constante utilizada para el buffer.
+
 void interprete (){
   // Se crea un arbol.
   ITree arbolEjemplo = itree_crear ();
   // Se crea el intervalo auxiliar.
   Intervalo intervaloEjemplo;
-  char buffer[80];
+  char buffer[BUFFER];
   char accion = ' ';
   int banderaScan = 1;
   // Se crea el arbol auxiliar que se va a usar solo en caso de tener que
