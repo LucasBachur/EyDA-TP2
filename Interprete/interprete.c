@@ -210,7 +210,8 @@ int validar_numero (char entrada){
 int validar_espacio (char* entrada, int i){
   // Si el espacio esta entre una coma y un numero se dice que es valido.
   // Es el unico espacio valido dentro del argumento.
-  return (entrada[i-1] == ',' && (validar_numero (entrada[i + 1]) || entrada[i + 1] == '-'));
+  return (entrada[i-1] == ',' &&
+   (validar_numero (entrada[i + 1]) || entrada[i + 1] == '-'));
 }
 
 int validar_exp (char* entrada, int bandera, int i){

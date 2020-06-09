@@ -6,7 +6,8 @@
 /**
  * Crea un arbol y un intervalo.
  * Luego comienza la iteracion.
- * Lee lo ingresado por la entrada estandar y realiza distintas acciones segun el comando ingresado.
+ * Lee lo ingresado por la entrada estandar y realiza distintas acciones segun 
+ * el comando ingresado.
  * Si lo ingresado no es un comando valido, devuelve un mensaje de error.
  * Si no realiza la accion correspondiente en el arbol creado:
  * "i [a,b]" ==> inserta el intervalo [a,b] en el arbol.

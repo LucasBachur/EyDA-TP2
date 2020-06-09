@@ -62,7 +62,8 @@ void itree_mayor_extDer (ITree *arbol){
     // el extremo derecho del nodo actual, el maxExtDer del hijo izquierdo y
     // el maxExtDer del hijo derecho.
     else
-      maxExtDer = max3 ((*arbol)->intervalo.extDer, (*arbol)->left->maxExtDer, (*arbol)->right->maxExtDer);
+      maxExtDer = max3 ((*arbol)->intervalo.extDer, (*arbol)->left->maxExtDer, 
+        (*arbol)->right->maxExtDer);
 
     // Una vez que se obtuvo el valor de maxExtDer, se le asigna al arbol actual.
     (*arbol)->maxExtDer = maxExtDer;
@@ -76,8 +77,8 @@ ITree itree_balancear (ITree arbol){
 
   // Si la altura del subarbol izquierdo es mayor...
   if (factorBalance > 1){
-    // En el caso de balance tras insercion, nunca va a ser igual a 0, pues justamente
-    // por algo esta desbalanceado.
+    // En el caso de balance tras insercion, nunca va a ser igual a 0, pues
+    // justamente por algo esta desbalanceado.
     // Ahora bien, cuando estamos balanceando tras eliminacion, puede ser que
     // sea 0, y en ese caso daria lo mismo, por lo que optamos por hacer
     // solo una rotacion simple.
@@ -92,8 +93,8 @@ ITree itree_balancear (ITree arbol){
     }
   }
   else if (factorBalance < -1){
-    // En el caso de balance tras insercion, nunca va a ser igual a 0, pues justamente
-    // por algo esta desbalanceado.
+    // En el caso de balance tras insercion, nunca va a ser igual a 0, pues
+    // justamente por algo esta desbalanceado.
     // Ahora bien, cuando estamos balanceando tras eliminacion, puede ser que
     // sea 0, y en ese caso daria lo mismo, por lo que optamos por hacer
     // solo una rotacion simple.
@@ -314,7 +315,8 @@ ITree itree_intersecar (ITree arbol, Intervalo intervalo){
     // parametro es menor o igual al maxExtDer del hijo izquierdo, entonces se
     // realiza la recursion sobre el hijo izquierdo. Esto es porque si hay
     // interseccion solo puede estar de ese lado.
-    else if(!itree_es_vacio(arbol->left) && intervalo.extIzq <= arbol->left->maxExtDer)
+    else if(!itree_es_vacio(arbol->left) &&
+     intervalo.extIzq <= arbol->left->maxExtDer)
       resultado = itree_intersecar (arbol->left, intervalo);
 
     // Si no se cumplen las condiciones anteriores, si hay interseccion
