@@ -99,7 +99,6 @@ char validar_entrada (char* entrada, Intervalo* intervalo){
     printf ("Comando totalmente invalido.\n");
     printf ("Los comandos validos son:\ni [x,y]\ne [x,y]\n");
     printf ("? [x,y]\nbfs\ndfs\nsalir\n");
-    printf ("Ingrese un nuevo comando\n");
   }
 
   return accion;
