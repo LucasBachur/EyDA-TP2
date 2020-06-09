@@ -32,4 +32,4 @@ cleanWin:
 	del /Q /F Interprete\*.o Interprete\ITree\Cola\*.o Interprete\ITree\Pila\*.o Interprete\ITree\Intervalos\*.o Interprete\ITree\*.o *.o *.exe *.out
 
 cleanLin:
-	rm -rf *.out *.o */*.o */*.out */*/*.o */*/*.out */*/*/*.o */*/*/*.out
+	rm -rf *.out *.o */*.o */*/*.o */*/*/*.o
