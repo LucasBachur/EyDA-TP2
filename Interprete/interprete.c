@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "ITree/ITree.h"// Dentro de ITree.h se incluye Intervalos.h
-#include "interprete.h" // Dentro de interprete.h tambien, pero por los "ifndef"
-                        // se usa la defincion de ITree.h y no hay problemas.
+#include "ITree/ITree.h"//Dentro de ITree.h se incluye Intervalos.h
+#include "interprete.h" //Dentro de interprete.h tambien, pero por los "ifndef"
+                        //se usa la defincion de ITree.h y no hay problemas.
 
 #define BUFFER 80 //Constante utilizada para el buffer.
 
@@ -83,8 +83,10 @@ char validar_entrada (char* entrada, Intervalo* intervalo){
   else if ((entrada[0] == 'i' || entrada[0] == 'e' || entrada[0] == '?') &&
    entrada[1] == ' ' && entrada[2] == '['){
     if (validar_argumento (entrada)){
+      // Si la entrada es valida extraemos los extremos del intevalo de la misma.
       sscanf (entrada + 3, "%lf,%lf]", &(intervalo->extIzq),
        &(intervalo->extDer));
+      // Chequeamos que el intervalo sea valido.
       if (intervalo_validar (*intervalo))
         accion = entrada[0];
       else {
